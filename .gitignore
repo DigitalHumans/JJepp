@@ -1,2 +1,6 @@
 *.out
 *.exe
+*.sln
+*.vcxproj
+*.vcxproj.fliters
+*.vcxproj.user
