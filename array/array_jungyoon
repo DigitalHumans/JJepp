@@ -1,0 +1,42 @@
+1. 배열
+- 연속된 같은 자료형의 변수를 하나로 묶어 사용하는 것
+- 크기와 타입이 고정됨
+- 선언: 자료형 이름[크기] = {초기 내용};
+
+ex)
+float students[30] = {88.8f, 77.7f, ..., 100};
+
+2. 문자열
+1)C: char형의 배열
+2)C++: string
+
+ex)
+string s;
+string s2 = "Hello World!";
+string s3{"Hello World!"};
+
+s = "Hello World!";
+
+char c[30];
+char c2[30] = "Hello World!";
+char c3[30]{"Hello World!"};
+strcpy(c, "Hello World!");  //cstring 필요
+
+3. C++ 배경지식
+C++은 C를 대체하기 위해 만들어짐. 따라서 C의 기원인 유닉스에 영향을 받음.
+유닉스에서는 입출력에 버퍼를 사용함.
+버퍼에 저장 후,
+입력은 요청할 때마다 버퍼에 있는 내용물을 전달하는 식
+출력은 출력 버퍼에 저장하면 시스템에서 해당 버퍼의 내용물 출력하는 식
+
+4. C++ 문법
+1) stream 연산자
+<< : outstream, >> : instream
+
+2) 표준 출력(cout)
+ex)
+cout << 13 << "Hello" << a << endl;
+
+3) 표준 입력(cin)
+ex)
+cin >> a >> b >> c;
