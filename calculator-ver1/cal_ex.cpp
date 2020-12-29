@@ -44,6 +44,9 @@ double calculator(int a, int b, char op){
         if(b!=0){
             res=a%b;
         }
+        else{
+            cout<<"계산할 수 없음"<<endl;
+        }
     }
     else if(op=='^'){
         res=pow(a,b);
