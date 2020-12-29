@@ -1,4 +1,4 @@
-/* file name : helloworld.cpp
+/* file name : homework1_min.cpp
  * created : can't remember
  * modified : Thu, Nov 26th, 20:35
  * author : kimminju
