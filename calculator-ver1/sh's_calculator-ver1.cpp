@@ -16,3 +16,8 @@ int main()
     cout << str << endl;
 
 }
+
+double add(double a,double b)
+{
+    return a+b;
+}
