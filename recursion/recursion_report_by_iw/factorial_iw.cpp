@@ -22,7 +22,11 @@ int main()
         cout<<"------<result>------"<<endl;
         while(Nuber_of_N >= 0)
         {
-            cout << Nuber_of_N << " :   ";
+            cout.width(10);
+            cout.fill(' ');
+            cout.setf(ios::left);
+            cout << Nuber_of_N; 
+            cout << ": ";
             cout << Factorial_recursion(Nuber_of_N) << endl;
             Nuber_of_N = Nuber_of_N - 1;
         }
@@ -35,3 +39,4 @@ int main()
         }
     }
 }
+
