@@ -151,7 +151,7 @@ void Display(const Book* bk)
 }
 Display(&web_book);
 
-처럼 구조체를 간접적으로 전달 할 수 있다.
+처럼 구조체를 콜바이레퍼런스를 통해 간접적으로 전달할 수 있다.
 혹은 (*bk). 대신 bk-> 을 이용할 수도 있다.
 
 
