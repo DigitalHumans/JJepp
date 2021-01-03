@@ -2,22 +2,43 @@
 
 using namespace std;
 
-int* Nuber_of_N = 0;
 
-long Fibonacci_recursion(long N_0, long N_1, int* N)
+long Fibonacci_recursion(int N)
 {
-    if(*N != 0)
+    if (N - 1 == 1)
     {
-        *N - 1;
-        cout <<Fibonacci_recursion(N_1, N_0+N_1 ,N)<<", ";
+        return 1;
     }
-    cout<<N_0 + N_1<<endl;
-    return N_0 + N_1;
+    if (N - 1 == 0)
+    {
+        return 1;
+    }
+    return Fibonacci_recursion(N - 1) + Fibonacci_recursion(N - 2);
 }
-
 
 int main()
 {
-    *Nuber_of_N = 5;
-    Fibonacci_recursion(1, 1, Nuber_of_N);
+    while (1)
+    {
+        int Nuber_of_N = 0;   
+        cout<<"type length of serial"<<endl;
+        cin>>Nuber_of_N;//문자 입력 시 에러처리 안되어 있음
+        cout<<"------<result>------"<<endl;
+        while(Nuber_of_N >= 1)
+        {
+            cout << Nuber_of_N << " :   ";
+            cout << Fibonacci_recursion(Nuber_of_N) << endl;
+            Nuber_of_N = Nuber_of_N - 1;
+        }
+        
+        cout<<"type n to quit OR type anykey to excutate this again"<<endl;
+        char end_value = 0;
+        cin >> end_value;
+        if (end_value == 'n' || end_value == 'N')
+        {
+            break;
+        }
+    }
 }
+
+
