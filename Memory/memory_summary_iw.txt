@@ -98,14 +98,35 @@ int& 참조자이름 = 변수이름; // 참조자 선언
 
 참조자는 
 참조 연산자를 통해 구현을 생각해보면
-int a = 0;
-int b = 3;
-int* temp = &b;
-&b = &a;
-free(temp);
+#include <iostream>
+#include <malloc.h>
+using namespace std;
+
+int main()
+{
+    int* a = NULL;
+    int* b = NULL;
+    // int* c = NULL;
+    int* temp = (int*)malloc(sizeof(int)*2);
+
+    a = temp;
+    b = temp+1;
+    
+    *a = 0;
+    *b = 3;
+
+    cout<<"address_name  a  : "<<a<<"  : value_name *a  : "<<*a<<endl;
+    cout<<"address_name  b  : "<<b<<"  : value_name *b  : "<<*b<<endl;
+
+    b = a;
+
+    cout<<"address_name  a  : "<<a<<"  : value_name *a  : "<<*a<<endl;
+    cout<<"address_name  b  : "<<b<<"  : value_name *b  : "<<*b<<endl;
+    free(temp);
+}
 
 위와 같은 처리를 한
-변수 b와 비슷하다.
+변수 *b와 비슷하다.
 메모리 상에서는 하나이나 이름은 두개를 가지는 변수를 생성할 수 있는 것이다.
 
 
