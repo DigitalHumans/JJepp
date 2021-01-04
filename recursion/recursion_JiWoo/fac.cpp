@@ -2,7 +2,7 @@
  detail: using recursion fuction
 
  made by: Ji Woo, Kim
- modified: 01.03, 2021
+ modified: 01.03,2021
  */
 #include <iostream>
 using namespace std;
