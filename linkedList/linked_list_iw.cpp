@@ -124,8 +124,8 @@ class linked_list
     {
         struct node* temp_1 = head_pointer;
         struct node* temp_2 = tail_pointer;
-        cout<<"head_pointer"<<head_pointer<<endl;
-        cout<<"tail_pointer"<<tail_pointer<<endl;
+        cout<<"head_pointer : "<<head_pointer<<endl;
+        cout<<"tail_pointer : "<<tail_pointer<<endl;
         int i = 0;
         cout<<"search 초기화 완료"<<endl;
         if(serial_num<0 || serial_num >= length)
@@ -170,6 +170,7 @@ class linked_list
 
     void dump(long serial_num)
     {
+        cout<<"덤핑 시작"<<endl;        
         struct node* temp_1 = head_pointer;
         struct node* temp_2 = tail_pointer;
 
@@ -186,8 +187,8 @@ class linked_list
                 temp_1 = temp_2;
                 i++;
             }
-            return;
-
+            cout<<"덤핑 완료"<<endl;
+        return;
     }
 
     // void dump(long serial_num_1, long serial_num_2)
@@ -208,7 +209,7 @@ class linked_list
 
     ~linked_list()
     {
-        // cout<<"소멸자 호출 완료"<<endl;
+        cout<<"소멸자 호출 완료"<<endl;
         // while(head_pointer != NULL)
         // {
         //     struct node* temp_node = tail_pointer;
@@ -224,15 +225,16 @@ class linked_list
         struct node* temp_2 = tail_pointer;
 
    
-            int i = 0;
-            while(i < length-1)
-            {
-                temp_2 = (*temp_1).ptr_next; 
-                temp_1 = temp_2;
-                i++;
-            }
-            return;
+        int i = 0;
+        while(i < length-1)
+        {
+            temp_2 = (*temp_1).ptr_next; 
+            temp_1 = temp_2;
+            i++;
+        }
         cout<<"소멸자 동작 완료"<<endl;
+        return;
+        
     }
 
 
@@ -251,7 +253,9 @@ int main()
     list_1.search(3);
 
     cout<<"일련번호 출력"<<endl;
-    cout<<(*(list_1.search(1))).serial_num<<endl;
+    struct node* COUT_serial_number = list_1.search(1);
+    cout<<endl<<"serial_number : "<<(*COUT_serial_number).serial_num<<endl;
+    cout<<"address       : "<<COUT_serial_number<<endl<<endl;
     // cout<<"검색완료"<<endl;
     list_1.dump(3);
     
