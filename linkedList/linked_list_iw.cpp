@@ -29,8 +29,8 @@ struct node
 
 class linked_list
 {
-    struct node* head_pointer;//시작점 주소    //private를 구현해야 함
-    struct node* tail_pointer;//끝점 주소      //private를 구현해야 함
+    struct node* head_pointer = NULL;//시작점 주소    //private를 구현해야 함
+    struct node* tail_pointer = NULL;//끝점 주소      //private를 구현해야 함
     long length;                                //private를 구현해야 함
     public:
     linked_list()//컨스트럭터, 초기화 하기  
@@ -46,80 +46,45 @@ class linked_list
     linked_list(long input_length)//컨스트럭터, 초기화 하기  
     {
         cout<<"생성자 호출 완료"<<endl;
-        head_pointer = new struct node();
-        for(int i = 0; i < input_length; i++)
-        {
-            add();
-        }
+        // head_pointer = new struct node();
+            add(input_length);
         cout<<"생성자 동작 완료"<<endl;
     }
 
-    struct node* search(long serial_num)
+    void add(long number_of_elements)
     {
-        struct node* temp_1 = head_pointer;
-        struct node* temp_2 = tail_pointer;
-
-        int i = 1;
-
-        if(serial_num<=0 || serial_num > length)
+        long i = 0;
+        while(i < number_of_elements)
         {
-            cout<<"invalid access : serial_number is out of range"<<endl;
-            return NULL;
-        }
-        if(serial_num <= (length/2))
-        {
-            while(i < serial_num)
-            {
-                temp_2 = (*temp_2).ptr_next; 
-                temp_1 = temp_2;
-                i++;
-            }
-            return temp_1;
-        }
-        if(serial_num > (length/2))
-        {
-            i = length;
-            while(i >= serial_num+1)
-            {
-                temp_1 = (*temp_2).ptr_previous; 
-                temp_2 = temp_1;
-                i++;
-            }
-            return temp_2;
-        }
-        return NULL;
-    }
-
-    // void get_ptr()
-    // {
-        
-    // }// 이미 search 함수에서 포인터를 반환 하고 있음 
-
-
-    void add()
-    {
+        cout<<"add 호출 완료"<<endl;
         struct node* temp_node = NULL;
         struct node* temp_node_previous = NULL;
         //make 2 temporary spaces
         temp_node_previous = tail_pointer;//get ptr of previous node(=last node). tail_pointer: had been initialized to NULL;
-
+        cout<<"add 초기화 완료"<<endl;
         if(head_pointer == NULL)
         {
             head_pointer = new struct node();
+            cout<<"add 분기1 완료"<<endl;
             temp_node = head_pointer;
         }
         else
         {
             temp_node = new struct node();
+            cout<<"add 분기2 완료"<<endl;
             (*temp_node_previous).ptr_next = temp_node;
         }
-
+        cout<<"add 노드할당 완료"<<endl;
         (*temp_node).ptr_previous = temp_node_previous;
         (*temp_node).ptr_next = NULL;
         (*temp_node).serial_num = length++;//management length
+        cout<<"add 노드연결 및 순번매기기 완료"<<endl;
         //linking and set serial_num
         tail_pointer = temp_node;
+        cout<<"add 꼬리노드 대입연산 완료"<<endl;
 
+        i++;    
+        }
     }
 
     // void add(string push_pop)
@@ -150,6 +115,54 @@ class linked_list
         delete temp_node;
     }
     
+     struct node* search(long serial_num)
+    {
+        struct node* temp_1 = head_pointer;
+        struct node* temp_2 = tail_pointer;
+        cout<<"head_pointer"<<head_pointer<<endl;
+        cout<<"tail_pointer"<<tail_pointer<<endl;
+        int i = 0;
+        cout<<"search 초기화 완료"<<endl;
+        if(serial_num<0 || serial_num >= length)
+        {
+            cout<<"invalid access : serial_number is out of range"<<endl;
+            return NULL;
+        }
+        if(serial_num <= (length/2))
+        {
+            cout<<"search 분기1 시작"<<endl;
+            while(i < serial_num)
+            {
+                temp_2 = (*temp_1).ptr_next; 
+                temp_1 = temp_2;
+                i++;
+            }
+            return temp_1;
+        }
+        if(serial_num > (length/2))
+        {
+            cout<<"search 분기2 시작"<<endl;
+            i = length-1;
+            while(i > serial_num)
+            {
+                temp_1 = (*temp_2).ptr_previous; 
+                cout<<"search 분기2.1 시작"<<endl;
+                temp_2 = temp_1;
+                cout<<"search 분기2.2 시작"<<endl;
+                i--;
+            }
+            return temp_2;
+        }
+        cout<<"search 분기3(나머지)"<<endl;
+        return NULL;
+    }
+
+    // void get_ptr()
+    // {
+        
+    // }// 이미 search 함수에서 포인터를 반환 하고 있음 
+
+
     void dump(long serial_num)
     {
         if(serial_num<=0 || serial_num > length)
@@ -181,7 +194,7 @@ class linked_list
 
     ~linked_list()
     {
-        while(head_pointer !=NULL)
+        while(head_pointer != NULL)
         {
             struct node* temp_node = tail_pointer;
             struct node* temp_node_previous = (*temp_node).ptr_previous;
@@ -202,8 +215,18 @@ class linked_list
 
 int main()
 {
-    linked_list list_1(5);
+    linked_list list_1(3);
+    list_1.add(2);
     cout<<"생성완료"<<endl;
+    linked_list list_2();
+    cout<<"생성완료"<<endl;
+    list_1.search(3);
+
+    cout<<"일련번호 출력"<<endl;
+    cout<<(*(list_1.search())).serial_num<<endl;
+    // cout<<"검색완료"<<endl;
+    
+    
 
     return 0;
 }
