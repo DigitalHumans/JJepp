@@ -191,6 +191,24 @@ class linked_list
         return;
     }
 
+    void dump_all()
+    {
+        cout<<"덤핑 시작"<<endl;        
+        struct node* temp_1 = head_pointer;
+        struct node* temp_2 = tail_pointer;
+
+        int i = 0;
+        while(temp_2 != NULL)
+            {
+                (*temp_1).data.dump();
+                temp_2 = (*temp_1).ptr_next; 
+                temp_1 = temp_2;
+            }
+
+        cout<<"덤핑 완료"<<endl;
+        return;
+    }
+
     // void dump(long serial_num_1, long serial_num_2)
     // {
     //     if(serial_num<=0 || serial_num > length)
@@ -224,13 +242,12 @@ class linked_list
         struct node* temp_1 = head_pointer;
         struct node* temp_2 = tail_pointer;
 
-   
-        int i = 0;
-        while(i < length-1)
+        while(temp_1 != NULL)
         {
-            temp_2 = (*temp_1).ptr_next; 
-            temp_1 = temp_2;
-            i++;
+            (*temp_2).data.dump();
+            temp_1 = (*temp_2).ptr_previous; 
+            delete temp_2;
+            temp_2 = temp_1;
         }
         cout<<"소멸자 동작 완료"<<endl;
         return;
@@ -258,9 +275,12 @@ int main()
     cout<<"address       : "<<COUT_serial_number<<endl<<endl;
     // cout<<"검색완료"<<endl;
     list_1.dump(3);
-    
-    
-
+    list_1.dump_all();
+    cout<<"전체 덤핑 출력"<<endl;
+    list_1.subtract();
+    cout<<"마지막 요소 제거"<<endl;
+    list_1.dump_all();
+    cout<<"전체 덤핑 출력"<<endl;
     return 0;
 }
 
