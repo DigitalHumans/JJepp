@@ -13,8 +13,13 @@ using namespace std;
 
 struct example_data//data 의 형태나 종류만 편집하면  node에 다른 종류의 데이터도 담을 수 있음
 {
-    string str;
-    long num;
+    void dump()
+    {
+        cout<<str<<endl;
+        cout<<num<<endl;
+    }
+    string str = "초기값";
+    long num = 777;
 };
 
 //동적할당으로 데이터의 종류를 바꾸면 좋을 듯
@@ -165,15 +170,24 @@ class linked_list
 
     void dump(long serial_num)
     {
+        struct node* temp_1 = head_pointer;
+        struct node* temp_2 = tail_pointer;
+
         if(serial_num<=0 || serial_num > length)
         {
             cout<<"invalid access : serial_number is out of range"<<endl;
             return;
         }
-        while(serial_num > 0)
-        {
+            int i = 0;
+            while(i < serial_num)
+            {
+                (*temp_1).data.dump();
+                temp_2 = (*temp_1).ptr_next; 
+                temp_1 = temp_2;
+                i++;
+            }
+            return;
 
-        }
     }
 
     // void dump(long serial_num_1, long serial_num_2)
@@ -194,16 +208,30 @@ class linked_list
 
     ~linked_list()
     {
-        while(head_pointer != NULL)
-        {
-            struct node* temp_node = tail_pointer;
-            struct node* temp_node_previous = (*temp_node).ptr_previous;
+        // cout<<"소멸자 호출 완료"<<endl;
+        // while(head_pointer != NULL)
+        // {
+        //     struct node* temp_node = tail_pointer;
+        //     struct node* temp_node_previous = (*temp_node).ptr_previous;
 
-            (*temp_node_previous).ptr_next = NULL;
-            tail_pointer = temp_node_previous;
+        //     (*temp_node_previous).ptr_next = NULL;
+        //     tail_pointer = temp_node_previous;
 
-            delete temp_node;
-        }
+        //     delete temp_node;
+        // }
+
+        struct node* temp_1 = head_pointer;
+        struct node* temp_2 = tail_pointer;
+
+   
+            int i = 0;
+            while(i < length-1)
+            {
+                temp_2 = (*temp_1).ptr_next; 
+                temp_1 = temp_2;
+                i++;
+            }
+            return;
         cout<<"소멸자 동작 완료"<<endl;
     }
 
@@ -223,10 +251,14 @@ int main()
     list_1.search(3);
 
     cout<<"일련번호 출력"<<endl;
-    cout<<(*(list_1.search())).serial_num<<endl;
+    cout<<(*(list_1.search(1))).serial_num<<endl;
     // cout<<"검색완료"<<endl;
+    list_1.dump(3);
     
     
 
     return 0;
 }
+
+
+//소멸자 애러 해결 필요
