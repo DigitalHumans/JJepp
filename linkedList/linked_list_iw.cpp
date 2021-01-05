@@ -5,6 +5,7 @@ using namespace std;
 private class linked_list
 {
     private struct node* head_pointer;//시작점 주소
+    private struct node* tail_pointer;//끝점 주소
     long length  
 
     void linked_list()//컨스트럭터, 초기화 하기  
@@ -72,6 +73,7 @@ private class linked_list
     {
         struct node* temp_node = get_ptr(length);
         struct node* temp_node_previous = ptr_previous;
+        
         (*temp_node).
     }
 
