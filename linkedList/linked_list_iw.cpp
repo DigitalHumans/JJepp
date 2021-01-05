@@ -32,10 +32,10 @@ class linked_list
     struct node* head_pointer;//시작점 주소    //private를 구현해야 함
     struct node* tail_pointer;//끝점 주소      //private를 구현해야 함
     long length;                                //private를 구현해야 함
-
+    public:
     linked_list()//컨스트럭터, 초기화 하기  
     {
-        head_pointer = new struct node();
+        // head_pointer = new struct node();
     }
 
     linked_list(struct node* address)//컨스트럭터, 초기화 하기  
@@ -45,11 +45,13 @@ class linked_list
 
     linked_list(long input_length)//컨스트럭터, 초기화 하기  
     {
+        cout<<"생성자 호출 완료"<<endl;
         head_pointer = new struct node();
         for(int i = 0; i < input_length; i++)
         {
             add();
         }
+        cout<<"생성자 동작 완료"<<endl;
     }
 
     struct node* search(long serial_num)
@@ -97,25 +99,27 @@ class linked_list
     void add()
     {
         struct node* temp_node = NULL;
-        struct node* temp_node_previous = NULL:
+        struct node* temp_node_previous = NULL;
         //make 2 temporary spaces
+        temp_node_previous = tail_pointer;//get ptr of previous node(=last node). tail_pointer: had been initialized to NULL;
 
         if(head_pointer == NULL)
         {
-            head_pointer == new struct node();
-            
+            head_pointer = new struct node();
+            temp_node = head_pointer;
         }
-        
-        temp_node = new struct node();
-        temp_node_previous = tail_pointer;//get ptr of last node.
-        //make 2 temporary spaces
-        
-        //get pointer of previous node
-        (*temp_node).ptr_previous = temp_node_previous; 
+        else
+        {
+            temp_node = new struct node();
+            (*temp_node_previous).ptr_next = temp_node;
+        }
+
+        (*temp_node).ptr_previous = temp_node_previous;
         (*temp_node).ptr_next = NULL;
-        (*temp_node).serial_num = length+1;
+        (*temp_node).serial_num = length++;//management length
         //linking and set serial_num
-        (*temp_node_previous).ptr_next = temp_node;
+        tail_pointer = temp_node;
+
     }
 
     // void add(string push_pop)
@@ -142,7 +146,7 @@ class linked_list
 
         (*temp_node_previous).ptr_next = NULL;
         tail_pointer = temp_node_previous;
-
+        length--;//management length
         delete temp_node;
     }
     
@@ -187,6 +191,7 @@ class linked_list
 
             delete temp_node;
         }
+        cout<<"소멸자 동작 완료"<<endl;
     }
 
 
@@ -197,6 +202,8 @@ class linked_list
 
 int main()
 {
+    linked_list list_1(5);
+    cout<<"생성완료"<<endl;
 
     return 0;
 }
