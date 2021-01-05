@@ -6,7 +6,7 @@ int main(){cout<<sum(2, 3)<<sum(5, 1)<<endl; return 0;}
 
 2. 함수 포인터 
 : 선언 시 반환타입과 파라미터 타입 명시 
-: () 은 함수 실행 연산자 
+: () 은 함수 실행 연산자    
 ex) int(*funcptr)(int); //int를 받아서 int를 반환하는 함수 포인터
 funcptr=func; funcptr(3);
 : 함수를 매개 변수로 전달 / 함수 포인터를 이용해 조건을 유동적으로 설정 
