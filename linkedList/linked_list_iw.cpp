@@ -11,17 +11,62 @@ using namespace std;
 //노드에는 메모리 절약을 위해 데이터의 공간만 담는다. 메소드는 담지 않는다.
 
 
-struct example_data//data 의 형태나 종류만 편집하면  node에 다른 종류의 데이터도 담을 수 있음
-{
-    void dump()
-    {
-        cout<<str<<endl;
-        cout<<num<<endl;
-    }
-    string str = "초기값";
-    long num = 777;
-};
 
+
+
+class example_data//data 의 형태나 종류만 편집하면  node에 다른 종류의 데이터도 담을 수 있음
+{
+    private:
+    string str = "초기값";
+    int num = 777;
+    
+    public:
+    void dump()//string str, long num)//static 접근제어자를 이용하지 않아도 힘수가 차지하는 공간은 4byte 포인터로 일정한가??
+    {
+        cout<<example_data::str<<endl;
+        cout<<example_data::num<<endl;
+    }
+    void get_property()
+    {
+        int number_of_elements = 2;
+        cout<<"property_of_this_data"<<endl;
+        cout<<"number_of_elements : "<<number_of_elements<<endl;
+        cout<<"elements_1    type : "<<typeid(str).name()<<endl;
+        cout<<"elements_1    data : "<<str<<endl;
+        cout<<"elements_2    type : "<<typeid(num).name()<<endl;
+        cout<<"elements_2    data : "<<num<<endl;
+    }
+    //http://www.tcpschool.com/cpp/cpp_template_function
+    //템플릿에 관한 부분
+
+   template <typename T>//템플릿의 적용범위는 정확히 어디까지지??
+    void edit_data(int element_number, T input)
+    {
+        
+        switch(element_number)
+        {
+            case 0:
+            cout<<"자료변경 메소드 분기 0 시작"<<endl;
+            str = input;
+
+            break;
+            case 1:
+            cout<<"자료변경 메소드 분기 1 시작"<<endl;
+            
+            num = (long) input;
+            
+            break;
+            default:
+            cout<<"invalid access : element_number is out of range"<<endl;
+        }
+    }
+};
+// class example_data_test//data 의 형태나 종류만 편집하면  node에 다른 종류의 데이터도 담을 수 있음
+// {
+//     private:
+//     string str = "초기값";
+//     long num = 777;
+// };
 //동적할당으로 데이터의 종류를 바꾸면 좋을 듯
 
 struct node 
@@ -29,11 +74,12 @@ struct node
     long serial_num;
     struct node* ptr_previous = NULL;
     struct node* ptr_next = NULL;
-    struct example_data data;
+    class example_data data;
 };
 
 class linked_list
 {
+    private:
     struct node* head_pointer = NULL;//시작점 주소          //private를 구현해야 함 // 길이가 0 인경우 NULL
     struct node* tail_pointer = NULL;//끝점 주소            //private를 구현해야 함 // 길이가 0 인경우 NULL 
     long length = -1;//최초 리스트의 초기값은 -1로 한다.     //private를 구현해야 함 
@@ -43,11 +89,12 @@ class linked_list
         length = 0;// 길이가 0인 리스트 객체의 head
     }
 
-    linked_list(struct node* head_address, struct node* tail_address)//컨스트럭터, 초기화 하기  
-    {
-        head_pointer = head_address;
-        tail_pointer = tail_address;
-    }
+    // linked_list(struct node* head_address, struct node* tail_address)//컨스트럭터, 초기화 하기  
+    // {
+    //     length = 0;
+    //     head_pointer = head_address;
+    //     tail_pointer = tail_address;
+    // }
 
     linked_list(long input_length)//컨스트럭터, 초기화 하기  
     {
@@ -121,7 +168,31 @@ class linked_list
         length--;//management length
         delete temp_node;
     }
+
+    // void subtract(long serial_num)
+    // {
+    //     struct node* temp_node = tail_pointer;
+    //     struct node* temp_node_previous = (*temp_node).ptr_previous;
+
+    //     (*temp_node_previous).ptr_next = NULL;
+    //     tail_pointer = temp_node_previous;
+    //     length--;//management length
+    //     delete temp_node;
+    // }
+
+    // void subtract(long serial_num, long serial_num)
+    // {
+    //     struct node* temp_node = tail_pointer;
+    //     struct node* temp_node_previous = (*temp_node).ptr_previous;
+
+    //     (*temp_node_previous).ptr_next = NULL;
+    //     tail_pointer = temp_node_previous;
+    //     length--;//management length
+    //     delete temp_node;
+    // }
     
+    
+
      struct node* search(long serial_num)
     {
         struct node* temp_1 = head_pointer;
@@ -168,6 +239,12 @@ class linked_list
     // {
         
     // }// 이미 search 함수에서 포인터를 반환 하고 있음 
+    template <typename T>
+    int change(long serial_num, int element_number, T input)
+    {
+        struct node* temp = search(serial_num);
+        (*temp).data.edit_data(element_number, input);
+    }
 
 
     void dump(long serial_num)
@@ -199,14 +276,12 @@ class linked_list
         struct node* temp_1 = head_pointer;
         struct node* temp_2 = tail_pointer;
 
-        int i = 0;
         while(temp_2 != NULL)
             {
                 (*temp_1).data.dump();
                 temp_2 = (*temp_1).ptr_next; 
                 temp_1 = temp_2;
             }
-
         cout<<"덤핑 완료"<<endl;
         return;
     }
@@ -271,11 +346,18 @@ int main()
     cout<<"생성완료"<<endl;
     list_1.search(3);
 
+
+    
+
     cout<<"일련번호 출력"<<endl;
     struct node* COUT_serial_number = list_1.search(1);
     cout<<endl<<"serial_number : "<<(*COUT_serial_number).serial_num<<endl;
     cout<<"address       : "<<COUT_serial_number<<endl<<endl;
     // cout<<"검색완료"<<endl;
+
+    list_1.change(2, 0, "사랑");
+
+
     list_1.dump(3);
     list_1.dump_all();
     cout<<"전체 덤핑 출력"<<endl;
@@ -283,6 +365,13 @@ int main()
     cout<<"마지막 요소 제거"<<endl;
     list_1.dump_all();
     cout<<"전체 덤핑 출력"<<endl;
+
+    cout<<"data 클래스의 크기"<<endl;
+    cout<<sizeof(example_data)<<endl;
+    cout<<"data 클래스의 크기"<<endl;
+    //cout<<sizeof(example_data_test)<<endl;
+    cout<<endl<<"data 클래스의 크기2 : "<<sizeof ((*COUT_serial_number).data)<<endl;
+
     return 0;
 }
 
