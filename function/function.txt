@@ -1,0 +1,32 @@
+<inline>
+함수 호출시 스택에 쌓지 않고 컴파일 과정에서 실행 코드로 넣음.
+
+inline int sum(int& lhs, int& rhs){return lhs + rhs;}
+int main(){ cout << sum(2, 3) << sum(5, 1) << endl; return 0;}
+->
+int main(){ cout << 2+3 << 5+1 << endl; return 0;}
+
+<함수 포인터>
+함수도 메모리에 저장되기 때문에 포인터가 존재.
+선언시에 반환타입과 파라미터 타입을 명시.
+()은 함수 실행 연산자.
+함수 이름 역시 포인터이다.
+int (*funcptr)(int); // int를 받아서 int를 받아서 int를 반환하는 함수의 포인터.
+funcptr = func; funcptr(3);
+
+함수를 매개변수로 전달할 수 있음.
+정렬과 같은 곳에서 조건을 함수 포인터 등을 이용해서 유동적으로 정할 수 있다.
+대체제가 있기에 쓸 데 없음.
+
+<lambda>
+익명함수. 한번 쓰고 말 함수의 경우 유용.
+또는 auto를 이용하여 저장한 후 사용할 수도 있다.
+[사용할 외부변수](파라미터) -> 리턴타입 {실행문}
+경우에 따라서 몇가지를 줄일 수 있다.
+auto rightBigger = [](const auto& lhs, const auto& rhs){return lhs < rhs;};
+if (rightBigger(3, 5)) cout << "true" << endl;
+
+함수의 argument로 함수포인터 대신 쓸 수 있다.
+ex)
+int arr[8] = {4,3,2,5,4,6,7,1};
+std::sort(arr, arr+7, [](auto& lhs, auto& rhs){return lhs < rhs;});
