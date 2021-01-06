@@ -34,28 +34,30 @@ struct node
 
 class linked_list
 {
-    struct node* head_pointer = NULL;//시작점 주소    //private를 구현해야 함
-    struct node* tail_pointer = NULL;//끝점 주소      //private를 구현해야 함
-    long length;                                //private를 구현해야 함
+    struct node* head_pointer = NULL;//시작점 주소          //private를 구현해야 함 // 길이가 0 인경우 NULL
+    struct node* tail_pointer = NULL;//끝점 주소            //private를 구현해야 함 // 길이가 0 인경우 NULL 
+    long length = -1;//최초 리스트의 초기값은 -1로 한다.     //private를 구현해야 함 
     public:
-    linked_list()//컨스트럭터, 초기화 하기  
+    linked_list()//컨스트럭터, 길이가 0인 리스트로 초기화 하기  
     {
-        // head_pointer = new struct node();
+        length = 0;// 길이가 0인 리스트 객체의 head
     }
 
-    linked_list(struct node* address)//컨스트럭터, 초기화 하기  
+    linked_list(struct node* head_address, struct node* tail_address)//컨스트럭터, 초기화 하기  
     {
-        head_pointer = address;
+        head_pointer = head_address;
+        tail_pointer = tail_address;
     }
 
     linked_list(long input_length)//컨스트럭터, 초기화 하기  
     {
+        length = 0;//(=//this();   //?)
         cout<<"생성자 호출 완료"<<endl;
         // head_pointer = new struct node();
-            add(input_length);
+        add(input_length);
         cout<<"생성자 동작 완료"<<endl;
     }
-
+    
     void add(long number_of_elements)
     {
         long i = 0;
@@ -88,7 +90,7 @@ class linked_list
         tail_pointer = temp_node;
         cout<<"add 꼬리노드 대입연산 완료"<<endl;
 
-        i++;    
+        i++;
         }
     }
 
