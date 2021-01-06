@@ -105,6 +105,11 @@ class linked_list
         cout<<"생성자 동작 완료"<<endl;
     }
     
+    long get_length()
+    {
+        return length;
+    }
+
     void add(long number_of_elements)
     {
         long i = 0;
@@ -160,6 +165,7 @@ class linked_list
 
     void subtract()
     {
+        
         struct node* temp_node = tail_pointer;
         struct node* temp_node_previous = (*temp_node).ptr_previous;
 
@@ -169,27 +175,109 @@ class linked_list
         delete temp_node;
     }
 
-    // void subtract(long serial_num)
-    // {
-    //     struct node* temp_node = tail_pointer;
-    //     struct node* temp_node_previous = (*temp_node).ptr_previous;
+    void subtract(long serial_num)
+    {    
+        
 
-    //     (*temp_node_previous).ptr_next = NULL;
-    //     tail_pointer = temp_node_previous;
-    //     length--;//management length
-    //     delete temp_node;
-    // }
+        struct node* temp_node = search(serial_num);
+        struct node* temp_node_previous = (*temp_node).ptr_previous;
+        struct node* temp_node_next = (*temp_node).ptr_next;
+        
+        length--;//management length
+        
+        cout<<"subtract 초기화 완료"<<endl;
+        cout<<(void*)temp_node_previous<<endl;
+        cout<<(void*)temp_node_next<<endl;
+        
 
-    // void subtract(long serial_num, long serial_num)
-    // {
-    //     struct node* temp_node = tail_pointer;
-    //     struct node* temp_node_previous = (*temp_node).ptr_previous;
+        delete temp_node;
 
-    //     (*temp_node_previous).ptr_next = NULL;
-    //     tail_pointer = temp_node_previous;
-    //     length--;//management length
-    //     delete temp_node;
-    // }
+        cout<<"subtract 삭제후 연결 완료"<<endl;
+        if(temp_node_previous == NULL)
+        {
+            head_pointer = temp_node_next;
+            (*temp_node_next).ptr_previous = (struct node*)temp_node_previous;
+            return;
+        }
+        if(temp_node_next == NULL)
+        {
+            tail_pointer = temp_node_previous;
+            (*temp_node_previous).ptr_next = (struct node*)temp_node_next;
+            return;
+        }
+        (*temp_node_previous).ptr_next = (struct node*)temp_node_next;
+        (*temp_node_next).ptr_previous = (struct node*)temp_node_previous;
+
+        
+    }
+
+    void subtract(long serial_num_1, long serial_num_2)
+    {
+
+        struct node* temp_node_front = NULL;
+        struct node* temp_node_end = NULL;
+
+        struct node* node_front_ptr_previous = NULL;
+        struct node* node_end_ptr_next = NULL;
+
+        if(serial_num_2 - serial_num_1 == 0)
+        {
+            cout<<"삭제 구간 분기 확인_0"<<endl;
+            subtract(serial_num_1);
+            return;
+        }
+
+
+        if(serial_num_2 - serial_num_1 > 0)
+        {
+            cout<<"삭제 구간 분기 확인_1"<<endl;
+            temp_node_front = search(serial_num_1);//serial_num_1 이 더 작은 수인 경우
+            temp_node_end = search(serial_num_2);
+        }
+        if(serial_num_2 - serial_num_1 < 0)
+        {
+            cout<<"삭제 구간 분기 확인_2"<<endl;
+            temp_node_front = search(serial_num_2);//serial_num_2 가 더 작은 수인 경우
+            temp_node_end = search(serial_num_1);
+
+        }
+
+        node_front_ptr_previous = (*temp_node_front).ptr_previous;
+        node_end_ptr_next = (*temp_node_end).ptr_next;
+
+        struct node* temp_1 = temp_node_front;
+        struct node* temp_2 = temp_node_end;
+
+        while(temp_1 != NULL)
+        {
+            cout<<"삭제 내용 확인 시작"<<endl;
+            (*temp_2).data.dump();
+            cout<<"삭제 내용 확인 종료"<<endl;
+            temp_1 = (*temp_2).ptr_previous; 
+            delete temp_2;
+            length--;
+            temp_2 = temp_1;
+        }
+
+        if(node_front_ptr_previous == NULL && node_end_ptr_next != NULL)//head_pointer가 삭제 및 재설정되는 상황
+        {
+            cout<<"삭제 분기 확인_1"<<endl;
+            head_pointer = node_end_ptr_next;
+            (*head_pointer).ptr_previous = NULL;
+        }
+        if(node_front_ptr_previous != NULL && node_end_ptr_next == NULL)//tail_pointer가 삭제 및 재설정되는 상황
+        {
+            cout<<"삭제 분기 확인_2"<<endl;
+            tail_pointer = node_front_ptr_previous;
+            (*tail_pointer).ptr_next = NULL;
+        }
+        if(node_front_ptr_previous == NULL && node_end_ptr_next == NULL)//head_pointer 와 tail_pointer가 모두 삭제 및 NULL로 재설정되는 상황//전체삭제의 경우
+        {
+            cout<<"삭제 분기 확인_3"<<endl;
+            head_pointer = NULL;
+            tail_pointer = NULL;
+        }
+    }
     
     
 
@@ -199,9 +287,11 @@ class linked_list
         struct node* temp_2 = tail_pointer;
         cout<<"head_pointer : "<<head_pointer<<endl;
         cout<<"tail_pointer : "<<tail_pointer<<endl;
+        cout<<"serial_num   : "<<serial_num<<endl;
+        cout<<"length       : "<<length<<endl;
         int i = 0;
         cout<<"search 초기화 완료"<<endl;
-        if(serial_num<0 || serial_num >= length)
+        if(serial_num<0 || serial_num > length-1)
         {
             cout<<"invalid access : serial_number is out of range"<<endl;
             return NULL;
@@ -253,7 +343,7 @@ class linked_list
         struct node* temp_1 = head_pointer;
         struct node* temp_2 = tail_pointer;
 
-        if(serial_num<=0 || serial_num > length)
+        if(serial_num<=0 || serial_num > length-1)
         {
             cout<<"invalid access : serial_number is out of range"<<endl;
             return;
@@ -344,19 +434,20 @@ int main()
     cout<<"생성완료"<<endl;
     linked_list list_2();
     cout<<"생성완료"<<endl;
-    list_1.search(3);
+    list_1.search(4);
 
 
     
 
     cout<<"일련번호 출력"<<endl;
-    struct node* COUT_serial_number = list_1.search(1);
+    struct node* COUT_serial_number = list_1.search(4);
     cout<<endl<<"serial_number : "<<(*COUT_serial_number).serial_num<<endl;
     cout<<"address       : "<<COUT_serial_number<<endl<<endl;
     // cout<<"검색완료"<<endl;
 
-    list_1.change(2, 0, "사랑");
-
+    list_1.change(1, 0, "사랑");
+    list_1.change(2, 0, "미움");
+    
 
     list_1.dump(3);
     list_1.dump_all();
@@ -364,7 +455,24 @@ int main()
     list_1.subtract();
     cout<<"마지막 요소 제거"<<endl;
     list_1.dump_all();
-    cout<<"전체 덤핑 출력"<<endl;
+    cout<<"전체 덤핑 출력_1"<<endl;
+    
+    cout<<"삭제 전 길이 확인"<<endl;
+    cout<<list_1.get_length()<<endl;
+    list_1.subtract(0);//마지막 요소를 삭제 했을때 메모리 누출에러
+    cout<<"삭제 후 길이 확인"<<endl;
+    cout<<list_1.get_length()<<endl;
+    list_1.dump_all();
+    cout<<"전체 덤핑 출력_2"<<endl;
+
+
+    cout<<"삭제 전 길이 확인_2"<<endl;
+    cout<<list_1.get_length()<<endl;
+    list_1.subtract(2, 2);//마지막 요소를 삭제 했을때 메모리 누출에러
+    cout<<"삭제 후 길이 확인_2"<<endl;
+    cout<<list_1.get_length()<<endl;
+    list_1.dump_all();
+    cout<<"전체 덤핑 출력_3"<<endl;
 
     cout<<"data 클래스의 크기"<<endl;
     cout<<sizeof(example_data)<<endl;
