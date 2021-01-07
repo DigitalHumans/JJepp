@@ -39,7 +39,7 @@ class example_data//data 의 형태나 종류만 편집하면  node에 다른 �
     //http://www.tcpschool.com/cpp/cpp_template_function
     //템플릿에 관한 부분
 
-   template <typename T>//템플릿의 적용범위는 정확히 어디까지지??
+   template <typename T>//템플릿의 적용범위는 정확히 어디까지지??// 바로 아래 함수까지 만이라고 합니다.
     void edit_data(int element_number, T input)
     {
         
@@ -79,7 +79,7 @@ struct node
 
 class linked_list
 {
-    private:
+    public://테스트후 private로 바꾸기
     struct node* head_pointer = NULL;//시작점 주소          //private를 구현해야 함 // 길이가 0 인경우 NULL
     struct node* tail_pointer = NULL;//끝점 주소            //private를 구현해야 함 // 길이가 0 인경우 NULL 
     long length = -1;//최초 리스트의 초기값은 -1로 한다.     //private를 구현해야 함 
@@ -192,7 +192,7 @@ class linked_list
 
         delete temp_node;
 
-        cout<<"subtract 삭제후 연결 완료"<<endl;
+        
         if(temp_node_previous == NULL)
         {
             head_pointer = temp_node_next;
@@ -208,7 +208,7 @@ class linked_list
         (*temp_node_previous).ptr_next = (struct node*)temp_node_next;
         (*temp_node_next).ptr_previous = (struct node*)temp_node_previous;
 
-        
+        cout<<"subtract 삭제후 연결 완료"<<endl;
     }
 
     void subtract(long serial_num_1, long serial_num_2)
@@ -233,32 +233,67 @@ class linked_list
             cout<<"삭제 구간 분기 확인_1"<<endl;
             temp_node_front = search(serial_num_1);//serial_num_1 이 더 작은 수인 경우
             temp_node_end = search(serial_num_2);
+            cout<<"삭제 구간 분기 확인_1 종료"<<endl;
+            cout<<endl<<"ptr_next      : "<<(*head_pointer).ptr_next<<endl;
+            cout<<endl<<"ptr_previous  : "<<(*head_pointer).ptr_previous<<endl<<endl;
+            
         }
         if(serial_num_2 - serial_num_1 < 0)
         {
             cout<<"삭제 구간 분기 확인_2"<<endl;
             temp_node_front = search(serial_num_2);//serial_num_2 가 더 작은 수인 경우
             temp_node_end = search(serial_num_1);
-
+            cout<<endl<<"ptr_next      : "<<(*head_pointer).ptr_next<<endl;
+            cout<<endl<<"ptr_previous  : "<<(*head_pointer).ptr_previous<<endl<<endl;
         }
+
+        cout<<"------------------------------"<<endl;
+        cout<<endl<<"ptr_next       : "<<(*temp_node_front).ptr_next<<endl;
+        cout<<endl<<"ptr_           : "<<temp_node_front<<endl;
+        cout<<endl<<"ptr_previous   : "<<(*temp_node_front).ptr_previous<<endl<<endl;
+        cout<<endl<<"ptr_next       : "<<(*temp_node_end).ptr_next<<endl;
+        cout<<endl<<"ptr_           : "<<temp_node_end<<endl;
+        cout<<endl<<"ptr_previous   : "<<(*temp_node_end).ptr_previous<<endl<<endl;
+        cout<<"------------------------------"<<endl;
 
         node_front_ptr_previous = (*temp_node_front).ptr_previous;
         node_end_ptr_next = (*temp_node_end).ptr_next;
+        
+        cout<<"------------------------------"<<endl;
+        // cout<<endl<<"ptr_next       : "<<(*node_front_ptr_previous).ptr_next<<endl;
+        // cout<<endl<<"ptr_           : "<<node_front_ptr_previous<<endl;
+        // cout<<endl<<"ptr_previous   : "<<(*node_front_ptr_previous).ptr_previous<<endl<<endl;
+        // cout<<endl<<"ptr_next       : "<<(*node_end_ptr_next).ptr_next<<endl;
+        // cout<<endl<<"ptr_           : "<<node_end_ptr_next<<endl;
+        // cout<<endl<<"ptr_previous   : "<<(*node_end_ptr_next).ptr_previous<<endl<<endl;
+        cout<<"------------------------------"<<endl;
 
         struct node* temp_1 = temp_node_front;
+
         struct node* temp_2 = temp_node_end;
 
-        while(temp_1 != NULL)
+        // (*temp_1).ptr_previous == NULL;
+        // (*temp_2).ptr_next == NULL;//비교연산한 실 수 박제.....이걸로 몇시간 태움....
+
+        (*temp_1).ptr_previous = NULL;
+        (*temp_2).ptr_next = NULL;//
+
+
+
+        while(temp_1 != NULL)//맨 뒤 부터 중간까지 지워나갈 때 중단하지 못 하는 오류 발견...?
         {
-            cout<<"삭제 내용 확인 시작"<<endl;
-            (*temp_2).data.dump();
-            cout<<"삭제 내용 확인 종료"<<endl;
+            cout<<endl<<"ptr_next       : "<<(*temp_1).ptr_next<<endl;
+            cout<<endl<<"ptr_           : "<<temp_1<<endl;
+            cout<<endl<<"ptr_previous   : "<<(*temp_1).ptr_previous<<endl<<endl;
+            // cout<<"삭제 내용 확인 시작"<<endl;
+            // (*temp_2).data.dump();
+            // cout<<"삭제 내용 확인 종료"<<endl;
             temp_1 = (*temp_2).ptr_previous; 
             delete temp_2;
             length--;
             temp_2 = temp_1;
-        }
-
+        }   
+        
         if(node_front_ptr_previous == NULL && node_end_ptr_next != NULL)//head_pointer가 삭제 및 재설정되는 상황
         {
             cout<<"삭제 분기 확인_1"<<endl;
@@ -267,9 +302,14 @@ class linked_list
         }
         if(node_front_ptr_previous != NULL && node_end_ptr_next == NULL)//tail_pointer가 삭제 및 재설정되는 상황
         {
+            
             cout<<"삭제 분기 확인_2"<<endl;
+            cout<<endl<<"ptr_next      : "<<(*head_pointer).ptr_next<<endl;
+            cout<<endl<<"ptr_previous  : "<<(*tail_pointer).ptr_previous<<endl<<endl;
             tail_pointer = node_front_ptr_previous;
             (*tail_pointer).ptr_next = NULL;
+            cout<<endl<<"ptr_next      : "<<(*head_pointer).ptr_next<<endl;
+            cout<<endl<<"ptr_previous  : "<<(*tail_pointer).ptr_previous<<endl<<endl;
         }
         if(node_front_ptr_previous == NULL && node_end_ptr_next == NULL)//head_pointer 와 tail_pointer가 모두 삭제 및 NULL로 재설정되는 상황//전체삭제의 경우
         {
@@ -277,6 +317,16 @@ class linked_list
             head_pointer = NULL;
             tail_pointer = NULL;
         }
+        if(node_front_ptr_previous != NULL && node_end_ptr_next != NULL)//리스트의 중간 부분이 삭제되어 연결이 재설정되는 상황//중간삭제의 경우
+        {
+            cout<<"삭제 분기 확인_3"<<endl;
+            (*node_front_ptr_previous).ptr_next = node_end_ptr_next;
+            (*node_end_ptr_next).ptr_previous = node_front_ptr_previous;
+        }
+
+
+        
+           
     }
     
     
@@ -411,7 +461,7 @@ class linked_list
 
         while(temp_1 != NULL)
         {
-            (*temp_2).data.dump();
+            // (*temp_2).data.dump();
             temp_1 = (*temp_2).ptr_previous; 
             delete temp_2;
             temp_2 = temp_1;
@@ -430,55 +480,22 @@ class linked_list
 int main()
 {
     linked_list list_1(3);
-    list_1.add(2);
+    list_1.add(7);
     cout<<"생성완료"<<endl;
     linked_list list_2();
     cout<<"생성완료"<<endl;
-    list_1.search(4);
-
-
-    
-
-    cout<<"일련번호 출력"<<endl;
-    struct node* COUT_serial_number = list_1.search(4);
-    cout<<endl<<"serial_number : "<<(*COUT_serial_number).serial_num<<endl;
-    cout<<"address       : "<<COUT_serial_number<<endl<<endl;
-    // cout<<"검색완료"<<endl;
-
-    list_1.change(1, 0, "사랑");
-    list_1.change(2, 0, "미움");
-    
-
-    list_1.dump(3);
-    list_1.dump_all();
-    cout<<"전체 덤핑 출력"<<endl;
-    list_1.subtract();
-    cout<<"마지막 요소 제거"<<endl;
-    list_1.dump_all();
-    cout<<"전체 덤핑 출력_1"<<endl;
-    
-    cout<<"삭제 전 길이 확인"<<endl;
-    cout<<list_1.get_length()<<endl;
-    list_1.subtract(0);//마지막 요소를 삭제 했을때 메모리 누출에러
-    cout<<"삭제 후 길이 확인"<<endl;
-    cout<<list_1.get_length()<<endl;
-    list_1.dump_all();
-    cout<<"전체 덤핑 출력_2"<<endl;
-
+    // struct node* COUT_TEMP = list_1.search(3);
+    // cout<<endl<<"head           : "<<(*COUT_TEMP).serial_num<<endl;
+    // cout<<endl<<"tail           : "<<list_1.tail_pointer<<endl<<endl;
 
     cout<<"삭제 전 길이 확인_2"<<endl;
     cout<<list_1.get_length()<<endl;
-    list_1.subtract(2, 2);//마지막 요소를 삭제 했을때 메모리 누출에러
+    list_1.subtract(5, 9);//마지막 요소를 삭제 했을때 메모리 누출에러
     cout<<"삭제 후 길이 확인_2"<<endl;
     cout<<list_1.get_length()<<endl;
     list_1.dump_all();
     cout<<"전체 덤핑 출력_3"<<endl;
 
-    cout<<"data 클래스의 크기"<<endl;
-    cout<<sizeof(example_data)<<endl;
-    cout<<"data 클래스의 크기"<<endl;
-    //cout<<sizeof(example_data_test)<<endl;
-    cout<<endl<<"data 클래스의 크기2 : "<<sizeof ((*COUT_serial_number).data)<<endl;
 
     return 0;
 }
