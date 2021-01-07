@@ -83,10 +83,12 @@ class linked_list
     struct node* head_pointer = NULL;//시작점 주소          //private를 구현해야 함 // 길이가 0 인경우 NULL
     struct node* tail_pointer = NULL;//끝점 주소            //private를 구현해야 함 // 길이가 0 인경우 NULL 
     long length = -1;//최초 리스트의 초기값은 -1로 한다.     //private를 구현해야 함 
+    long serial = -1;
     public:
     linked_list()//컨스트럭터, 길이가 0인 리스트로 초기화 하기  
     {
         length = 0;// 길이가 0인 리스트 객체의 head
+        serial = 0;
     }
 
     // linked_list(struct node* head_address, struct node* tail_address)//컨스트럭터, 초기화 하기  
@@ -99,6 +101,7 @@ class linked_list
     linked_list(long input_length)//컨스트럭터, 초기화 하기  
     {
         length = 0;//(=//this();   //?)
+        serial = 0;
         cout<<"생성자 호출 완료"<<endl;
         // head_pointer = new struct node();
         add(input_length);
@@ -136,12 +139,13 @@ class linked_list
         cout<<"add 노드할당 완료"<<endl;
         (*temp_node).ptr_previous = temp_node_previous;
         (*temp_node).ptr_next = NULL;
-        (*temp_node).serial_num = length++;//management length
+        (*temp_node).serial_num = serial++;//management length
         cout<<"add 노드연결 및 순번매기기 완료"<<endl;
         //linking and set serial_num
         tail_pointer = temp_node;
         cout<<"add 꼬리노드 대입연산 완료"<<endl;
 
+        length++;
         i++;
         }
     }
@@ -214,7 +218,7 @@ class linked_list
     void subtract(long serial_num_1, long serial_num_2)
     {
 
-        struct node* temp_node_front = NULL;
+        struct node* temp_node_beginning = NULL;
         struct node* temp_node_end = NULL;
 
         struct node* node_front_ptr_previous = NULL;
@@ -231,7 +235,7 @@ class linked_list
         if(serial_num_2 - serial_num_1 > 0)
         {
             cout<<"삭제 구간 분기 확인_1"<<endl;
-            temp_node_front = search(serial_num_1);//serial_num_1 이 더 작은 수인 경우
+            temp_node_beginning = search(serial_num_1);//serial_num_1 이 더 작은 수인 경우
             temp_node_end = search(serial_num_2);
             cout<<"삭제 구간 분기 확인_1 종료"<<endl;
             cout<<endl<<"ptr_next      : "<<(*head_pointer).ptr_next<<endl;
@@ -241,22 +245,22 @@ class linked_list
         if(serial_num_2 - serial_num_1 < 0)
         {
             cout<<"삭제 구간 분기 확인_2"<<endl;
-            temp_node_front = search(serial_num_2);//serial_num_2 가 더 작은 수인 경우
+            temp_node_beginning = search(serial_num_2);//serial_num_2 가 더 작은 수인 경우
             temp_node_end = search(serial_num_1);
             cout<<endl<<"ptr_next      : "<<(*head_pointer).ptr_next<<endl;
             cout<<endl<<"ptr_previous  : "<<(*head_pointer).ptr_previous<<endl<<endl;
         }
 
         cout<<"------------------------------"<<endl;
-        cout<<endl<<"ptr_next       : "<<(*temp_node_front).ptr_next<<endl;
-        cout<<endl<<"ptr_           : "<<temp_node_front<<endl;
-        cout<<endl<<"ptr_previous   : "<<(*temp_node_front).ptr_previous<<endl<<endl;
+        cout<<endl<<"ptr_next       : "<<(*temp_node_beginning).ptr_next<<endl;
+        cout<<endl<<"ptr_           : "<<temp_node_beginning<<endl;
+        cout<<endl<<"ptr_previous   : "<<(*temp_node_beginning).ptr_previous<<endl<<endl;
         cout<<endl<<"ptr_next       : "<<(*temp_node_end).ptr_next<<endl;
         cout<<endl<<"ptr_           : "<<temp_node_end<<endl;
         cout<<endl<<"ptr_previous   : "<<(*temp_node_end).ptr_previous<<endl<<endl;
         cout<<"------------------------------"<<endl;
 
-        node_front_ptr_previous = (*temp_node_front).ptr_previous;
+        node_front_ptr_previous = (*temp_node_beginning).ptr_previous;
         node_end_ptr_next = (*temp_node_end).ptr_next;
         
         cout<<"------------------------------"<<endl;
@@ -268,12 +272,12 @@ class linked_list
         // cout<<endl<<"ptr_previous   : "<<(*node_end_ptr_next).ptr_previous<<endl<<endl;
         cout<<"------------------------------"<<endl;
 
-        struct node* temp_1 = temp_node_front;
+        struct node* temp_1 = temp_node_beginning;
 
         struct node* temp_2 = temp_node_end;
 
         // (*temp_1).ptr_previous == NULL;
-        // (*temp_2).ptr_next == NULL;//비교연산한 실 수 박제.....이걸로 몇시간 태움....
+        // (*temp_2).ptr_next == NULL;//비교연산한 실-수 박제.....이걸로 몇시간 태움....
 
         (*temp_1).ptr_previous = NULL;
         (*temp_2).ptr_next = NULL;//
@@ -329,7 +333,108 @@ class linked_list
            
     }
     
-    
+    void insert(long gap_num)
+    {
+        //일련 번호 관리 필요
+        if(gap_num<0 || gap_num > length)
+        {
+            cout<<"insert place have to be not seprerate"<<endl;
+            return;
+        }
+        long gap_num_1 = gap_num-1;
+        long gap_num_2 = gap_num;
+
+
+        struct node* temp_front = search(gap_num_1);
+        struct node* new_temp_node = new struct node();
+        struct node* temp_near = search(gap_num_2);
+
+        (*new_temp_node).ptr_previous = temp_front;
+        (*new_temp_node).ptr_next = temp_near;
+
+        if(temp_front != NULL)
+        {
+            (*temp_front).ptr_next = new_temp_node;
+        }
+        else
+        {
+            head_pointer = new_temp_node;
+        }
+        if(temp_near != NULL)
+        {
+            (*temp_near).ptr_next = new_temp_node;
+        }
+        else
+        {
+            tail_pointer = new_temp_node;
+        }
+    } 
+    void insert(long gap_num, int number_of_elements)
+    {
+        //일련 번호 관리 필요
+        if(gap_num<0 || gap_num > length)
+        {
+            cout<<"insert place have to be not seprerate"<<endl;
+            return;
+        }
+        if(number_of_elements < 0)
+        {
+            cout<<"do performace nothig"<<endl;
+            return;
+        }
+        
+
+        long gap_num_1 = gap_num-1;
+        long gap_num_2 = gap_num;
+
+        struct node* gap_temp_front = search(gap_num_1);
+        struct node* gap_temp_near = search(gap_num_2);
+
+        struct node* new_node_front = NULL;
+        struct node* new_node_near = NULL;
+
+        struct node* new_node_temp_past = NULL;
+        struct node* new_node_temp_future = NULL;        
+
+        new_node_temp_future = new struct node();
+
+        new_node_front = new_node_temp_future;//set front point
+
+        new_node_temp_past = new_node_temp_future;//start point will be 'past' in next process relatively
+        number_of_elements--;//situation of number_of_elements < 0 had been already filtered upon If-Branch
+
+        while(number_of_elements > 0)
+        {
+            new_node_temp_future = new struct node();
+            (*new_node_temp_future).ptr_previous = new_node_temp_past;
+            (*new_node_temp_past).ptr_next = new_node_temp_future;
+            new_node_temp_past = new_node_temp_future;
+            number_of_elements--;
+        }
+
+        new_node_near = new_node_temp_past;//set near point
+
+
+        (*new_node_front).ptr_previous = gap_temp_front;
+        (*new_node_near).ptr_next = gap_temp_near;
+
+        if(gap_temp_front != NULL)
+        {
+            (*gap_temp_front).ptr_next = new_node_front;
+        }
+        else
+        {
+            head_pointer = new_node_front;
+        }
+        if(gap_temp_near != NULL)
+        {
+            (*gap_temp_near).ptr_next = new_node_near;
+        }
+        else
+        {
+            tail_pointer = new_node_near;
+        }
+    }    
 
      struct node* search(long serial_num)
     {
@@ -343,7 +448,7 @@ class linked_list
         cout<<"search 초기화 완료"<<endl;
         if(serial_num<0 || serial_num > length-1)
         {
-            cout<<"invalid access : serial_number is out of range"<<endl;
+            cout<<"invalid access : serial_number is out of range-----"<<endl;
             return NULL;
         }
         if(serial_num <= (length/2))
