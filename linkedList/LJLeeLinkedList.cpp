@@ -14,11 +14,11 @@ using namespace std;
 class Node
 {
 private:
-    int inner_data;
+    int inner_data; //prevent unintended modification
     Node* next_node;
     Node* prev_node;
 public:
-    const int& data = inner_data;
+    const int& data = inner_data; //safe way to expose data
     Node(int init):inner_data(init), next_node(nullptr), prev_node(nullptr){}
     Node(int init, Node* p):inner_data(init), next_node(nullptr), prev_node(p)
     {
@@ -32,14 +32,10 @@ public:
         if (next_node != nullptr)
             next_node->set_prev(this);
     }
-    inline void set_prev(Node* p)
-    {
-        prev_node = p;
-    }
-    inline void set_next(Node* n)
-    {
-        next_node = n;
-    }
+    inline void set_prev(Node* p) { prev_node = p; } //inline for shorter execution time
+    inline void set_next(Node* n) { next_node = n; }
+    Node* next(){return next_node;} //safe way to expose next node
+    Node* prev(){return prev_node;}
     void map_prev(Node* p)
     {
         set_prev(p);
@@ -52,15 +48,13 @@ public:
         if (next_node != nullptr)
             next_node->set_next(this);
     }
-    ~Node()
+    ~Node() //safely relink when destruction
     {
         if (prev_node != nullptr)
             prev_node->set_next(next_node);
         if (next_node != nullptr)
             next_node->set_prev(prev_node);
     }
-    Node* next(){return next_node;}
-    Node* prev(){return prev_node;}
 };
 
 class DoubleList
@@ -69,7 +63,7 @@ private:
     Node* head, *tail;
     Node* current;
     long long length;
-    bool goto_index(long long i)
+    bool goto_index(long long i) //only for internal use
     {
         if ((i < length - 1) || (i < 0))
             return false;
@@ -79,15 +73,9 @@ private:
         return true;
     }
 public:
-    DoubleList():
-        head(nullptr), tail(nullptr), current(nullptr), length(0)
-    {}
-    DoubleList(int init):
-        length(1)
-    {
-        head = new Node(init);
-        tail = current = head;
-    }
+    const long long& len = length; //safe way to expose length
+    DoubleList(): head(nullptr), tail(nullptr), current(nullptr), length(0) {}
+    DoubleList(int init): length(1) { tail = current = head = new Node(init); }
     const int& operator[](long long i)
     {
         if (!goto_index(i))
@@ -101,7 +89,7 @@ public:
             head = current = tail;
         ++length;
     }
-    bool insert(long long i, const int& data)
+    bool insert_at(long long i, const int& data)
     {
         if (i == 0)
             current = head = new Node(data, nullptr, head);
@@ -140,7 +128,7 @@ int main()
     cout << "Double linked list" << endl;
     DoubleList dlist(13);
     dlist.append(37);
-    dlist.insert(1, 59);
+    dlist.insert_at(1, 59);
     dlist.remove_at(1);
     return 0;
 }
