@@ -36,10 +36,104 @@ class example_data//data 의 형태나 종류만 편집하면  node에 다른 �
         cout<<"elements_2    type : "<<typeid(num).name()<<endl;
         cout<<"elements_2    data : "<<num<<endl;
     }
+    int get_number_of_elements()
+    {
+        return 2;
+    }
     //http://www.tcpschool.com/cpp/cpp_template_function
     //템플릿에 관한 부분
+    // auto get_data(int element_number)// 함수와 인수로 구현하려면 리턴형이 다양한 경우를 어떻게 해결하여야 할까??//람다를 사용한다면 내부에 분기문이 포함될 수 있는가??
+    // {
+    //     void* rtr = NULL;
+    //     switch(element_number)
+    //     {
+    //         case 0:
+    //         cout<<"자료변경 메소드 분기 0 시작"<<endl;
 
-   template <typename T>//템플릿의 적용범위는 정확히 어디까지지??// 바로 아래 함수까지 만이라고 합니다.
+    //         // dynamic_cast<string>(*rtr);
+    //         rtr = &str;
+            
+
+    //         break;
+    //         case 1:
+    //         cout<<"자료변경 메소드 분기 1 시작"<<endl;
+
+    //         // dynamic_cast<num>(*rtr);
+    //         rtr = &num;
+            
+
+    //         break;
+    //         default:
+    //         cout<<"invalid access : element_number is out of range"<<endl;
+    //         rtr = NULL;
+    //     }
+    //     return rtr;
+    // }
+
+    // auto get_data(int element_number)
+    // {
+    //     // switch(element_number)
+    //     // {
+            
+    //     //     case 0:
+    //     //     cout<<"자료변경 메소드 분기 0 시작"<<endl;
+
+    //     //     case 1:
+    //     //     cout<<"자료변경 메소드 분기 1 시작"<<endl;
+
+    //     //     break;
+    //     //     default:
+    //     //     cout<<"invalid access : element_number is out of range"<<endl;
+
+    //     // }
+    //     // return element_number == 0 ? str : (element_number == 1 ? num : 0);
+    //     return element_number < 1 ? str : num;
+    // }
+    // double (*calc)(double, double) = NULL;
+    auto get_data(int element_number)// 함수와 인수로 구현하려면 리턴형이 다양한 경우를 어떻게 해결하여야 할까??//람다를 사용한다면 내부에 분기문이 포함될 수 있는가??
+    {
+        auto (*fp)() = NULL;
+        switch(element_number)
+        {
+            case 0:
+            cout<<"자료 리턴 분기 0 시작"<<endl;
+            fp = get_data_0;
+
+            break;
+
+            case 1:
+            cout<<"자료 리턴 분기 1 시작"<<endl;
+            fp = get_data_0;
+            break;
+
+            default:
+            cout<<"invalid access : element_number is out of range"<<endl;
+            return;
+        }
+        return fp();
+    }
+
+    char* get_data_0()
+    {
+        return str;
+    }
+    int get_data_1()
+    {
+        return num;  
+    }
+
+
+    
+    // string get_data_1()
+    // {
+    //     return (char*)str;
+    // }
+    // long get_data_2()
+    // {
+    //     return num;
+    // }
+    
+    template <typename T>//템플릿의 적용범위는 정확히 어디까지지??// 바로 아래 함수까지 만이라고 합니다.
     void edit_data(int element_number, T input)
     {
         
@@ -59,6 +153,7 @@ class example_data//data 의 형태나 종류만 편집하면  node에 다른 �
             default:
             cout<<"invalid access : element_number is out of range"<<endl;
         }
+        return;
     }
 };
 // class example_data_test//data 의 형태나 종류만 편집하면  node에 다른 종류의 데이터도 담을 수 있음
@@ -485,11 +580,23 @@ class linked_list
         
     // }// 이미 search 함수에서 포인터를 반환 하고 있음 
     template <typename T>
-    int change(long serial_num, int element_number, T input)
+    void change(long serial_num, int element_number, T input)
     {
         struct node* temp = search(serial_num);
         (*temp).data.edit_data(element_number, input);
+        return;
     }
+
+    void get(long serial_num, int element_number)
+    {
+        // get_number_of_elements();
+        struct node* temp = search(serial_num);
+        (*temp).data.get_data(element_number);
+    }
+
+
+
+
 
 
     void dump(long serial_num)
@@ -587,11 +694,11 @@ int main()
     linked_list list_1(3);
     list_1.add(7);
     cout<<"생성완료"<<endl;
-    linked_list list_2();
-    cout<<"생성완료"<<endl;
+
     // struct node* COUT_TEMP = list_1.search(3);
     // cout<<endl<<"head           : "<<(*COUT_TEMP).serial_num<<endl;
     // cout<<endl<<"tail           : "<<list_1.tail_pointer<<endl<<endl;
+
 
     cout<<"삭제 전 길이 확인_2"<<endl;
     cout<<list_1.get_length()<<endl;
@@ -600,6 +707,7 @@ int main()
     cout<<list_1.get_length()<<endl;
     list_1.dump_all();
     cout<<"전체 덤핑 출력_3"<<endl;
+    cout<<list_1.get(2, 0)<<endl;
 
 
     return 0;
@@ -607,3 +715,10 @@ int main()
 
 
 //소멸자 애러 해결 완료
+
+
+//남은일
+//초기화 메소드
+//일련번호 정리 메소드
+//get_value, 값을 가져오는 메소드 
+
