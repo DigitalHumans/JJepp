@@ -215,6 +215,11 @@ class linked_list
         return length;
     }
 
+    void add()
+    {
+        add(1);
+    }
+
     void add(long number_of_elements)
     {
         long i = 0;
@@ -280,12 +285,16 @@ class linked_list
         length--;//management length
         delete temp_node;
     }
+    void erase()
+    {
+        substrct();
+    }
 
     void erase(long serial_num)
     {    
         
 
-        struct node* temp_node = search(serial_num);
+        struct node* temp_node = search_ptr(serial_num);
         struct node* temp_node_previous = (*temp_node).ptr_previous;
         struct node* temp_node_next = (*temp_node).ptr_next;
         
@@ -337,8 +346,8 @@ class linked_list
         if(serial_num_2 - serial_num_1 > 0)
         {
             // cout<<"삭제 구간 분기 확인_1"<<endl;
-            temp_node_beginning = search(serial_num_1);//serial_num_1 이 더 작은 수인 경우
-            temp_node_end = search(serial_num_2);
+            temp_node_beginning = search_ptr(serial_num_1);//serial_num_1 이 더 작은 수인 경우
+            temp_node_end = search_ptr(serial_num_2);
             // cout<<"삭제 구간 분기 확인_1 종료"<<endl;
             // cout<<endl<<"ptr_next      : "<<(*head_pointer).ptr_next<<endl;
             // cout<<endl<<"ptr_previous  : "<<(*head_pointer).ptr_previous<<endl<<endl;
@@ -347,8 +356,8 @@ class linked_list
         if(serial_num_2 - serial_num_1 < 0)
         {
             // cout<<"삭제 구간 분기 확인_2"<<endl;
-            temp_node_beginning = search(serial_num_2);//serial_num_2 가 더 작은 수인 경우
-            temp_node_end = search(serial_num_1);
+            temp_node_beginning = search_ptr(serial_num_2);//serial_num_2 가 더 작은 수인 경우
+            temp_node_end = search_ptr(serial_num_1);
             // cout<<endl<<"ptr_next      : "<<(*head_pointer).ptr_next<<endl;
             // cout<<endl<<"ptr_previous  : "<<(*head_pointer).ptr_previous<<endl<<endl;
         }
@@ -432,6 +441,11 @@ class linked_list
 
     }
     
+    void insert()
+    {
+        add();
+    }
+
     void insert(long gap_num)
     {
         //일련 번호 관리 필요
@@ -444,9 +458,9 @@ class linked_list
         long gap_num_2 = gap_num;
 
 
-        struct node* temp_front = search(gap_num_1);
+        struct node* temp_front = search_ptr(gap_num_1);
         struct node* new_temp_node = new struct node();
-        struct node* temp_near = search(gap_num_2);
+        struct node* temp_near = search_ptr(gap_num_2);
 
         (*new_temp_node).ptr_previous = temp_front;
         (*new_temp_node).ptr_next = temp_near;
@@ -486,8 +500,8 @@ class linked_list
         long gap_num_1 = gap_num-1;
         long gap_num_2 = gap_num;
 
-        struct node* gap_temp_front = search(gap_num_1);
-        struct node* gap_temp_near = search(gap_num_2);
+        struct node* gap_temp_front = search_ptr(gap_num_1);
+        struct node* gap_temp_near = search_ptr(gap_num_2);
 
         struct node* new_node_front = NULL;
         struct node* new_node_near = NULL;
@@ -535,7 +549,7 @@ class linked_list
         }
     }    
 
-     struct node* search(long serial_num)
+     struct node* search_ptr(long serial_num)
     {
         struct node* temp_1 = head_pointer;
         struct node* temp_2 = tail_pointer;
@@ -544,7 +558,7 @@ class linked_list
         // cout<<"serial_num   : "<<serial_num<<endl;
         // cout<<"length       : "<<length<<endl;
         int i = 0;
-        // cout<<"search 초기화 완료"<<endl;
+        // cout<<"search_ptr 초기화 완료"<<endl;
         if(serial_num<0 || serial_num > length-1)
         {
             cout<<"invalid access : serial_number is out of range-----"<<endl;
@@ -552,7 +566,7 @@ class linked_list
         }
         if(serial_num <= (length/2))
         {
-            // cout<<"search 분기1 시작"<<endl;
+            // cout<<"search_ptr 분기1 시작"<<endl;
             while(i < serial_num)
             {
                 temp_2 = (*temp_1).ptr_next; 
@@ -563,38 +577,38 @@ class linked_list
         }
         if(serial_num > (length/2))
         {
-            // cout<<"search 분기2 시작"<<endl;
+            // cout<<"search_ptr 분기2 시작"<<endl;
             i = length-1;
             while(i > serial_num)
             {
                 temp_1 = (*temp_2).ptr_previous; 
-                // cout<<"search 분기2.1 시작"<<endl;
+                // cout<<"search_ptr 분기2.1 시작"<<endl;
                 temp_2 = temp_1;
-                // cout<<"search 분기2.2 시작"<<endl;
+                // cout<<"search_ptr 분기2.2 시작"<<endl;
                 i--;
             }
             return temp_2;
         }
-        // cout<<"search 분기3(나머지)"<<endl;
+        // cout<<"search_ptr 분기3(나머지)"<<endl;
         return NULL;
     }
 
     // void get_ptr()
     // {
         
-    // }// 이미 search 함수에서 포인터를 반환 하고 있음 
+    // }// 이미 search_ptr 함수에서 포인터를 반환 하고 있음 
     template <typename T>
     void change(long serial_num, int element_number, T input)
     {
-        struct node* temp = search(serial_num);
+        struct node* temp = search_ptr(serial_num);
         (*temp).data.edit_data(element_number, input);
         return;
     }
 
-    struct node& get_node_ref(long serial_num)//작동여부가 정확한지 확인 받아보기
+    struct node& search_ref(long serial_num)//작동여부가 정확한지 확인 받아보기
     {
         // get_number_of_elements();
-        struct node* temp = search(serial_num);
+        struct node* temp = search_ptr(serial_num);
         
         return (*temp);//굉장히 위험한 코드//반드시 참조자로 변환할 것.
     }
@@ -639,7 +653,7 @@ class linked_list
         return;
     }
 
-    void serial_number_initialize()
+    void serial_num_init()
     {
         serial = 0;
         struct node* temp_1 = head_pointer;
@@ -675,6 +689,53 @@ class linked_list
             }
         cout<<"complete init data"<<endl;
         return;
+    }
+
+    void help()
+    {
+        cout<<"----------<HELP>----------"<<endl;
+        cout<<"<list_class>"<<endl;
+        cout<<""<<endl;
+        cout<<"-CREATE-"<<endl;
+        cout<<""<<endl;
+        cout<<"linked_list LIST_NAME(NUM);                      : create list with NUM of node"<<endl;
+        cout<<"linked_list LIST_NAME();                         : create list without node"<<endl;
+        cout<<""<<endl;
+        cout<<"-USE-"<<endl;
+        cout<<""<<endl;
+        cout<<"▷ GENERAL"<<endl;
+        cout<<""<<endl;
+        cout<<"LIST_NAME.help();                                : show help list"<<endl;
+        cout<<""<<endl;
+        cout<<"▶ NODE_management"<<endl;
+        cout<<""<<endl;
+        cout<<"LIST_NAME.get_length()                           : return length"<<endl;
+        cout<<"LIST_NAME.add()                                  : add a node as last node"<<endl;
+        cout<<"LIST_NAME.add(NUM)                               : add NUM of nodes as last node"<<endl;
+        cout<<"LIST_NAME.substract()                            : erease last node"<<endl;
+        cout<<"LIST_NAME.erease()                               : == substract"<<endl;
+        cout<<"LIST_NAME.erease(INDEX)                          : erease a node of index"<<endl;
+        cout<<"LIST_NAME.erease(INDEX_1, INDEX_2)               : erease nodes of range INDEX_1 to INDEX_2"<<endl;
+        cout<<"LIST_NAME.insert()                               : == add"<<endl;
+        cout<<"LIST_NAME.insert(INDEX)                          : insert new a node that node have index as INDEX"<<endl;
+        cout<<"LIST_NAME.insert(INDEX, NUM)                     : insert new NUM of nodes from INDEX"<<endl;
+        cout<<"LIST_NAME.search_ptr(INDEX)                      : return <struct node*> of INEDX"<<endl;
+        cout<<"LIST_NAME.search_ref(INDEX)                      : retuen <struct node&> of INEDX"<<endl;
+        cout<<"LIST_NAME.serial_num_init()                      : reset and redefine serial number of nodes 0 to length-1"<<endl;
+        cout<<""<<endl;
+        cout<<"▷ DATA_management"<<endl;
+        cout<<""<<endl;
+        cout<<"LISTNAME.dump(INDEX)                             : out-put data of nodes untill reach INDEX of node from first node"<<endl;
+        cout<<"LISTNAME.dump_all()                              : out-put data of nodes untill reach last node from first node"<<endl;
+        cout<<"LISTNAME.change(INDEX, NUM, INPUT)               : edit INDEX_node data of <NUM>-th as INPUT"<<endl;
+        cout<<""<<endl;
+        cout<<"▶ DATA_use_meber_function"<<endl;
+        cout<<""<<endl;
+        cout<<"LISTNAME.search_ref(INDEX).data.get_property()   : show instruction for property of data "<<endl;
+        cout<<"LISTNAME.search_ref(INDEX).data.get_data_NUM()   : return INDEX_node data of <NUM>-th as INPUT"<<endl;
+        cout<<""<<endl;
+        cout<<"----------<HELP>----------"<<endl;
+        cout<<""<<endl;
     }
 
     // void dump(long serial_num_1, long serial_num_2)
@@ -734,10 +795,11 @@ int main()
     list_1.add(7);
     cout<<"생성완료"<<endl;
 
-    // struct node* COUT_TEMP = list_1.search(3);
+    // struct node* COUT_TEMP = list_1.search_ptr(3);
     // cout<<endl<<"head           : "<<(*COUT_TEMP).serial_num<<endl;
     // cout<<endl<<"tail           : "<<list_1.tail_pointer<<endl<<endl;
 
+    list_1.help();
 
     cout<<"삭제 전 길이 확인_2"<<endl;
     cout<<list_1.get_length()<<endl;
@@ -751,9 +813,8 @@ int main()
     cout<<"전체 덤핑 출력_4"<<endl;
 
 
-    
-    cout<<list_1.get_node_ref(2).data.get_data_0()<<endl;
-    cout<<list_1.get_node_ref(2).data.get_data_1()<<endl;
+    cout<<list_1.search_ref(2).data.get_data_0()<<endl;
+    cout<<list_1.search_ref(2).data.get_data_1()<<endl;
 
 
     return 0;
