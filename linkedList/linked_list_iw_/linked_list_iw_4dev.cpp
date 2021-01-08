@@ -1,5 +1,5 @@
 #include <iostream>
-#include <string> //c++ 에서 .h 를 쓰는 것은 자유
+#include <string> //c++ 에서 .h 를 쓰는 것은 자유-> C해더와 c++ 해더의 차이점 잘알아두기 cstdio 같은 방법으로 기존의 c헤더를 지원해주며, C++ 헤더는 확장자가 없는 것임.
 #include <cstring>
 
 using namespace std;
@@ -641,19 +641,39 @@ class linked_list
 
     void serial_number_initialize()
     {
-
-        cout<<"덤핑 시작"<<endl;        
+        serial = 0;
         struct node* temp_1 = head_pointer;
         struct node* temp_2 = tail_pointer;
 
         while(temp_2 != NULL)
             {
-                (*temp_1).data.dump();
+                (*temp_1).serial_num = serial;
                 temp_2 = (*temp_1).ptr_next; 
                 temp_1 = temp_2;
-                
+                serial++;
             }
-        cout<<"덤핑 완료"<<endl;
+        cout<<"complete init serial number"<<endl;
+        return;
+    }
+
+    void clear()
+    {
+        serial = 0;
+        struct node* temp_1 = head_pointer;
+        struct node* temp_2 = tail_pointer;
+
+        while(temp_2 != NULL)
+            {
+
+                // memset(arr1, 'c', 5 * sizeof(char));
+                // 출처: https://blockdmask.tistory.com/441 [개발자 지망생]
+                memset((&(*temp_1).data), 0, sizeof((*temp_1).data));
+                // (*temp_1).data = serial;
+                temp_2 = (*temp_1).ptr_next; 
+                temp_1 = temp_2;
+                serial++;
+            }
+        cout<<"complete init data"<<endl;
         return;
     }
 
@@ -726,6 +746,12 @@ int main()
     cout<<list_1.get_length()<<endl;
     list_1.dump_all();
     cout<<"전체 덤핑 출력_3"<<endl;
+    list_1.clear();
+    list_1.dump_all();
+    cout<<"전체 덤핑 출력_4"<<endl;
+
+
+    
     cout<<list_1.get_node_ref(2).data.get_data_0()<<endl;
     cout<<list_1.get_node_ref(2).data.get_data_1()<<endl;
 
