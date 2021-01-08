@@ -1,4 +1,6 @@
 #include <iostream>
+#include <string> //c++ 에서 .h 를 쓰는 것은 자유
+#include <cstring>
 
 using namespace std;
 
@@ -90,32 +92,37 @@ class example_data//data 의 형태나 종류만 편집하면  node에 다른 �
     //     return element_number < 1 ? str : num;
     // }
     // double (*calc)(double, double) = NULL;
-    auto get_data(int element_number)// 함수와 인수로 구현하려면 리턴형이 다양한 경우를 어떻게 해결하여야 할까??//람다를 사용한다면 내부에 분기문이 포함될 수 있는가??
+
+    // auto get_data(int element_number)// 함수와 인수로 구현하려면 리턴형이 다양한 경우를 어떻게 해결하여야 할까??//람다를 사용한다면 내부에 분기문이 포함될 수 있는가??*********************************
+    // {
+    //     void (*fp)() = NULL;
+    //     switch(element_number)
+    //     {
+    //         case 0:
+    //         cout<<"자료 리턴 분기 0 시작"<<endl;
+    //         fp = get_data_0;
+
+    //         break;
+
+    //         case 1:
+    //         cout<<"자료 리턴 분기 1 시작"<<endl;
+    //         fp = get_data_0;
+    //         break;
+
+    //         default:
+    //         cout<<"invalid access : element_number is out of range"<<endl;
+    //         return;
+    //     }
+    //     return fp;
+    // }
+
+    const char* get_data_0()
     {
-        auto (*fp)() = NULL;
-        switch(element_number)
-        {
-            case 0:
-            cout<<"자료 리턴 분기 0 시작"<<endl;
-            fp = get_data_0;
-
-            break;
-
-            case 1:
-            cout<<"자료 리턴 분기 1 시작"<<endl;
-            fp = get_data_0;
-            break;
-
-            default:
-            cout<<"invalid access : element_number is out of range"<<endl;
-            return;
-        }
-        return fp();
-    }
-
-    char* get_data_0()
-    {
-        return str;
+        // string temp_str = str;
+        // char* temp = new char(temp_str.length()+1);//누출 문제를 함수종료 이후에 어떻게 해결하지??
+        // strcpy_s(temp, str.length()+1, str.c_str());
+        // // temp = temp_str.c_str();
+        return str.c_str();
     }
     int get_data_1()
     {
@@ -262,7 +269,7 @@ class linked_list
         
     // }
 
-    void subtract()
+    void erase()
     {
         
         struct node* temp_node = tail_pointer;
@@ -274,7 +281,7 @@ class linked_list
         delete temp_node;
     }
 
-    void subtract(long serial_num)
+    void erase(long serial_num)
     {    
         
 
@@ -284,7 +291,7 @@ class linked_list
         
         length--;//management length
         
-        cout<<"subtract 초기화 완료"<<endl;
+        cout<<"erase 초기화 완료"<<endl;
         cout<<(void*)temp_node_previous<<endl;
         cout<<(void*)temp_node_next<<endl;
         
@@ -307,10 +314,10 @@ class linked_list
         (*temp_node_previous).ptr_next = (struct node*)temp_node_next;
         (*temp_node_next).ptr_previous = (struct node*)temp_node_previous;
 
-        cout<<"subtract 삭제후 연결 완료"<<endl;
+        cout<<"erase 삭제후 연결 완료"<<endl;
     }
 
-    void subtract(long serial_num_1, long serial_num_2)
+    void erase(long serial_num_1, long serial_num_2)
     {
 
         struct node* temp_node_beginning = NULL;
@@ -322,7 +329,7 @@ class linked_list
         if(serial_num_2 - serial_num_1 == 0)
         {
             cout<<"삭제 구간 분기 확인_0"<<endl;
-            subtract(serial_num_1);
+            erase(serial_num_1);
             return;
         }
 
@@ -587,11 +594,12 @@ class linked_list
         return;
     }
 
-    void get(long serial_num, int element_number)
+    struct node& get_node_ref(long serial_num)
     {
         // get_number_of_elements();
         struct node* temp = search(serial_num);
-        (*temp).data.get_data(element_number);
+        
+        return (*temp);//굉장히 위험한 코드//참조자로 변환할 것.
     }
 
 
@@ -702,12 +710,12 @@ int main()
 
     cout<<"삭제 전 길이 확인_2"<<endl;
     cout<<list_1.get_length()<<endl;
-    list_1.subtract(5, 9);//마지막 요소를 삭제 했을때 메모리 누출에러
+    list_1.erase(5, 9);//마지막 요소를 삭제 했을때 메모리 누출에러
     cout<<"삭제 후 길이 확인_2"<<endl;
     cout<<list_1.get_length()<<endl;
     list_1.dump_all();
     cout<<"전체 덤핑 출력_3"<<endl;
-    cout<<list_1.get(2, 0)<<endl;
+    cout<<list_1.get_node_ref(2).data.get_data_0()<<endl;
 
 
     return 0;
