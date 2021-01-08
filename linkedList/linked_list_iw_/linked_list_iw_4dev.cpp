@@ -1,3 +1,10 @@
+/*
+ * file name : linked_list_iw_4dev.cpp
+ * created   : 2021-01-05
+ * modified  : 2021-01-09
+ * author    : iw (sangwoo kim)
+ */
+
 #include <iostream>
 #include <string> //c++ 에서 .h 를 쓰는 것은 자유-> C해더와 c++ 해더의 차이점 잘알아두기 cstdio 같은 방법으로 기존의 c헤더를 지원해주며, C++ 헤더는 확장자가 없는 것임.
 #include <cstring>
@@ -181,7 +188,7 @@ struct node
 
 class linked_list
 {
-    public://테스트후 private로 바꾸기
+    private://테스트후 private로 바꾸기
     struct node* head_pointer = NULL;//시작점 주소          //private를 구현해야 함 // 길이가 0 인경우 NULL
     struct node* tail_pointer = NULL;//끝점 주소            //private를 구현해야 함 // 길이가 0 인경우 NULL 
     long length = -1;//최초 리스트의 초기값은 -1로 한다.     //private를 구현해야 함 
@@ -962,7 +969,6 @@ int main()
     cout<<"출력 확인"<<endl;
     list_1.dump_serial_num(1, 2);
     list_1.dump_serial_num(2, 1);
-
 
     cout<<list_1.search_ref(2).data.get_data_0()<<endl;
     cout<<list_1.search_ref(2).data.get_data_1()<<endl;
