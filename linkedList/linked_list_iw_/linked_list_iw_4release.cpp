@@ -641,7 +641,7 @@ class linked_list
         cout<<""<<endl;
         cout<<"LISTNAME.search_ref(INDEX).data.get_elements_N() : show number of elements in data "<<endl;
         cout<<"LISTNAME.search_ref(INDEX).data.get_property()   : show instruction for property of data "<<endl;
-        cout<<"LISTNAME.search_ref(INDEX).data.get_data_NUM()   : return INDEX_node data of <NUM>-th as INPUT"<<endl;
+        cout<<"LISTNAME.search_ref(INDEX).data.get_data_NUM()   : return INDEX_node data of <NUM>-th as OUTPUT"<<endl;
         cout<<""<<endl;
         cout<<"----------<HELP>----------"<<endl;
         cout<<""<<endl;
@@ -773,6 +773,6 @@ int main()
 // ▶ DATA_use_meber_function
 
 // LISTNAME.search_ref(INDEX).data.get_property()   : show instruction for property of data 
-// LISTNAME.search_ref(INDEX).data.get_data_NUM()   : return INDEX_node data of <NUM>-th as INPUT
+// LISTNAME.search_ref(INDEX).data.get_data_NUM()   : return INDEX_node data of <NUM>-th as OUTPUT
 
 // ----------<HELP>----------
