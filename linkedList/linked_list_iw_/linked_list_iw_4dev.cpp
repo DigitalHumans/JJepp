@@ -38,7 +38,7 @@ class example_data//data 의 형태나 종류만 편집하면  node에 다른 �
         cout<<"elements_2    type : "<<typeid(num).name()<<endl;
         cout<<"elements_2    data : "<<num<<endl;
     }
-    int get_number_of_elements()
+    int get_elements_N()
     {
         return 2;
     }
@@ -617,7 +617,7 @@ class linked_list
 
     struct node& search_ref(long index)//작동여부가 정확한지 확인 받아보기
     {
-        // get_number_of_elements();
+        // get_elements_N();
         struct node* temp = search_ptr(index);
         // cout<<length<<endl;
         
@@ -631,7 +631,7 @@ class linked_list
         struct node* temp_1 = head_pointer;
         struct node* temp_2 = tail_pointer;
 
-        if(index<=0 || index > length-1)
+        if(index<0 || index > length-1)
         {
             cout<<"invalid access : index is out of range"<<endl;
             return;
@@ -646,6 +646,101 @@ class linked_list
             }
             cout<<"----------"<<endl<<"덤핑 완료"<<endl;
         return;
+    }
+
+    
+    void dump(long index_1, long index_2)
+    {
+        if(index_1<0 || index_1 > length-1 || index_2<0 || index_2 > length-1)
+        {
+            cout<<"invalid access : serial_number is out of range"<<endl;
+            return;
+        }
+
+        if(index_2 - index_1 == 0)
+        {
+            (*search_ptr(index_1)).data.dump();
+            return;
+        }
+
+        struct node* temp_node_beginning = NULL;
+        struct node* temp_node_end = NULL;
+
+        temp_node_beginning = search_ptr(index_1);
+        temp_node_end = search_ptr(index_2);
+
+        struct node* temp_1 = temp_node_beginning;
+        struct node* temp_2 = temp_node_end;
+        if(index_2 - index_1 > 0)//순행
+        {
+            while(temp_1 != temp_node_end)//맨 뒤 부터 중간까지 지워나갈 때 중단하지 못 하는 오류 발견...?
+            {
+                (*temp_1).data.dump();
+                temp_2 = (*temp_1).ptr_next; 
+                temp_1 = temp_2;
+            }   
+            (*temp_node_end).data.dump();
+        }
+        if(index_2 - index_1 < 0)//역행
+        {
+            while(temp_1 != temp_node_end)//맨 뒤 부터 중간까지 지워나갈 때 중단하지 못 하는 오류 발견...?
+            {
+                (*temp_1).data.dump();
+                temp_2 = (*temp_1).ptr_previous; 
+                temp_1 = temp_2;
+            }   
+            (*temp_node_end).data.dump();
+        }
+    }
+
+    void dump_serial_num(long index_1, long index_2)
+    {
+        if(index_1<0 || index_1 > length-1 || index_2<0 || index_2 > length-1)
+        {
+            cout<<"invalid access : serial_number is out of range"<<endl;
+            return;
+        }
+
+        if(index_2 - index_1 == 0)
+        {
+            (*search_ptr(index_1)).data.dump();
+            return;
+        }
+
+        struct node* temp_node_beginning = NULL;
+        struct node* temp_node_end = NULL;
+
+        temp_node_beginning = search_ptr(index_1);
+        temp_node_end = search_ptr(index_2);
+
+        struct node* temp_1 = temp_node_beginning;
+        struct node* temp_2 = temp_node_end;
+        if(index_2 - index_1 > 0)//순행
+        {
+            while(temp_1 != temp_node_end)//맨 뒤 부터 중간까지 지워나갈 때 중단하지 못 하는 오류 발견...?
+            {
+                cout<<"---<"<<(*temp_1).serial_num<<">---"<<endl;
+                (*temp_1).data.dump();
+                temp_2 = (*temp_1).ptr_next; 
+                temp_1 = temp_2;
+            }   
+            cout<<"---<"<<(*temp_node_end).serial_num<<">---"<<endl;
+            (*temp_node_end).data.dump();
+            cout<<"----------"<<endl<<"덤핑 완료"<<endl;
+        }
+        if(index_2 - index_1 < 0)//역행
+        {
+            while(temp_1 != temp_node_end)//맨 뒤 부터 중간까지 지워나갈 때 중단하지 못 하는 오류 발견...?
+            {
+                cout<<"---<"<<(*temp_1).serial_num<<">---"<<endl;
+                (*temp_1).data.dump();
+                temp_2 = (*temp_1).ptr_previous; 
+                temp_1 = temp_2;
+            }   
+            cout<<"---<"<<(*temp_node_end).serial_num<<">---"<<endl;
+            (*temp_node_end).data.dump();
+            cout<<"----------"<<endl<<"덤핑 완료"<<endl;
+        }
     }
 
     void dump_all()
@@ -664,6 +759,7 @@ class linked_list
         return;
     }
 
+
     void dump_all_serial_num()
     {
         cout<<"덤핑 시작"<<endl;        
@@ -680,6 +776,7 @@ class linked_list
         cout<<"----------"<<endl<<"덤핑 완료"<<endl;
         return;
     }
+
 
     void serial_num_init()
     {
@@ -753,13 +850,16 @@ class linked_list
         cout<<""<<endl;
         cout<<"▷ DATA_management"<<endl;
         cout<<""<<endl;
-        cout<<"LISTNAME.dump(INDEX)                             : out-put data of nodes untill reach INDEX of node from first node"<<endl;
+        cout<<"LISTNAME.dump(INDEX)                             : out-put data of nodes, untill reach INDEX of node from first node"<<endl;
+        cout<<"LISTNAME.dump(INDEX_1, INDEX_2)                  : out-put data of nodes, untill reach INDEX_2 of node from INDEX_1"<<endl;
+        cout<<"LISTNAME.dump_serial_num(INDEX_1, INDEX_2)       : out-put serial_number and data of nodes, untill reach INDEX_2 of node from INDEX_1"<<endl;
         cout<<"LISTNAME.dump_all()                              : out-put data of nodes untill reach last node from first node"<<endl;
-        cout<<"LISTNAME.dump_all_serial_num()                   : dump data with serial_number"<<endl;
+        cout<<"LISTNAME.dump_all_serial_num()                   : dump_all data with serial_number"<<endl;
         cout<<"LISTNAME.change(INDEX, NUM, INPUT)               : edit INDEX_node data of <NUM>-th as INPUT"<<endl;
         cout<<""<<endl;
         cout<<"▶ DATA_use_meber_function"<<endl;
         cout<<""<<endl;
+        cout<<"LISTNAME.search_ref(INDEX).data.get_elements_N() : show number of elements in data "<<endl;
         cout<<"LISTNAME.search_ref(INDEX).data.get_property()   : show instruction for property of data "<<endl;
         cout<<"LISTNAME.search_ref(INDEX).data.get_data_NUM()   : return INDEX_node data of <NUM>-th as INPUT"<<endl;
         cout<<""<<endl;
@@ -767,21 +867,7 @@ class linked_list
         cout<<""<<endl;
     }
 
-    // void dump(long index_1, long index_2)
-    // {
-    //     if(serial_num<=0 || serial_num > length)
-    //     {
-    //         cout<<"invalid access : serial_number is out of range"<<endl;
-    //         return 0;
-    //     }
 
-    //     if(serial_num<=0 || serial_num > length)
-    //     {
-    //         cout<<"invalid access : serial_number is out of range"<<endl;
-    //         return 0;
-    //     }
-    //     while(serial_num > 0)
-    // }
 
     ~linked_list()
     {
@@ -870,8 +956,12 @@ int main()
     list_1.erase(1, 6);
     list_1.serial_num_init();
     list_1.dump_all_serial_num();
-
-
+    list_1.dump(2, 1);
+    cout<<"출력 확인"<<endl;
+    list_1.dump_all_serial_num();
+    cout<<"출력 확인"<<endl;
+    list_1.dump_serial_num(1, 2);
+    list_1.dump_serial_num(2, 1);
 
 
     cout<<list_1.search_ref(2).data.get_data_0()<<endl;
