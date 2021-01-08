@@ -115,7 +115,7 @@ class example_data//data 의 형태나 종류만 편집하면  node에 다른 �
     //     }
     //     return fp;
     // }
-
+    
     const char* get_data_0()
     {
         // string temp_str = str;
@@ -269,7 +269,7 @@ class linked_list
         
     // }
 
-    void erase()
+    void substract()
     {
         
         struct node* temp_node = tail_pointer;
@@ -431,8 +431,6 @@ class linked_list
         }
 
 
-        
-           
     }
     
     void insert(long gap_num)
@@ -594,17 +592,13 @@ class linked_list
         return;
     }
 
-    struct node& get_node_ref(long serial_num)
+    struct node& get_node_ref(long serial_num)//작동여부가 정확한지 확인 받아보기
     {
         // get_number_of_elements();
         struct node* temp = search(serial_num);
         
-        return (*temp);//굉장히 위험한 코드//참조자로 변환할 것.
+        return (*temp);//굉장히 위험한 코드//반드시 참조자로 변환할 것.
     }
-
-
-
-
 
 
     void dump(long serial_num)
@@ -716,6 +710,7 @@ int main()
     list_1.dump_all();
     cout<<"전체 덤핑 출력_3"<<endl;
     cout<<list_1.get_node_ref(2).data.get_data_0()<<endl;
+    cout<<list_1.get_node_ref(2).data.get_data_1()<<endl;
 
 
     return 0;
