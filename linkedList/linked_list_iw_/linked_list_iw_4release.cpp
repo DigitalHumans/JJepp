@@ -1,5 +1,5 @@
 #include <iostream>
-#include <string> //c++ 에서 .h 를 쓰는 것은 자유
+#include <string> //c++ 에서 .h 를 쓰는 것은 자유-> C해더와 c++ 해더의 차이점 잘알아두기 cstdio 같은 방법으로 기존의 c헤더를 지원해주며, C++ 헤더는 확장자가 없는 것임.
 #include <cstring>
 
 using namespace std;
@@ -44,10 +44,84 @@ class example_data//data 의 형태나 종류만 편집하면  node에 다른 �
     }
     //http://www.tcpschool.com/cpp/cpp_template_function
     //템플릿에 관한 부분
- 
+    // auto get_data(int element_number)// 함수와 인수로 구현하려면 리턴형이 다양한 경우를 어떻게 해결하여야 할까??//람다를 사용한다면 내부에 분기문이 포함될 수 있는가??
+    // {
+    //     void* rtr = NULL;
+    //     switch(element_number)
+    //     {
+    //         case 0:
+    //         cout<<"자료변경 메소드 분기 0 시작"<<endl;
+
+    //         // dynamic_cast<string>(*rtr);
+    //         rtr = &str;
+            
+
+    //         break;
+    //         case 1:
+    //         cout<<"자료변경 메소드 분기 1 시작"<<endl;
+
+    //         // dynamic_cast<num>(*rtr);
+    //         rtr = &num;
+            
+
+    //         break;
+    //         default:
+    //         cout<<"invalid access : element_number is out of range"<<endl;
+    //         rtr = NULL;
+    //     }
+    //     return rtr;
+    // }
+
+    // auto get_data(int element_number)
+    // {
+    //     // switch(element_number)
+    //     // {
+            
+    //     //     case 0:
+    //     //     cout<<"자료변경 메소드 분기 0 시작"<<endl;
+
+    //     //     case 1:
+    //     //     cout<<"자료변경 메소드 분기 1 시작"<<endl;
+
+    //     //     break;
+    //     //     default:
+    //     //     cout<<"invalid access : element_number is out of range"<<endl;
+
+    //     // }
+    //     // return element_number == 0 ? str : (element_number == 1 ? num : 0);
+    //     return element_number < 1 ? str : num;
+    // }
+    // double (*calc)(double, double) = NULL;
+
+    // auto get_data(int element_number)// 함수와 인수로 구현하려면 리턴형이 다양한 경우를 어떻게 해결하여야 할까??//람다를 사용한다면 내부에 분기문이 포함될 수 있는가??*********************************
+    // {
+    //     void (*fp)() = NULL;
+    //     switch(element_number)
+    //     {
+    //         case 0:
+    //         cout<<"자료 리턴 분기 0 시작"<<endl;
+    //         fp = get_data_0;
+
+    //         break;
+
+    //         case 1:
+    //         cout<<"자료 리턴 분기 1 시작"<<endl;
+    //         fp = get_data_0;
+    //         break;
+
+    //         default:
+    //         cout<<"invalid access : element_number is out of range"<<endl;
+    //         return;
+    //     }
+    //     return fp;
+    // }
+    
     const char* get_data_0()
     {
-
+        // string temp_str = str;
+        // char* temp = new char(temp_str.length()+1);//누출 문제를 함수종료 이후에 어떻게 해결하지??
+        // strcpy_s(temp, str.length()+1, str.c_str());
+        // // temp = temp_str.c_str();
         return str.c_str();
     }
     int get_data_1()
@@ -141,6 +215,11 @@ class linked_list
         return length;
     }
 
+    void add()
+    {
+        add(1);
+    }
+
     void add(long number_of_elements)
     {
         long i = 0;
@@ -206,12 +285,16 @@ class linked_list
         length--;//management length
         delete temp_node;
     }
+    void erase()
+    {
+        substrct();
+    }
 
-    void erase(long serial_num)
+    void erase(long index)
     {    
         
 
-        struct node* temp_node = search(serial_num);
+        struct node* temp_node = search_ptr(index);
         struct node* temp_node_previous = (*temp_node).ptr_previous;
         struct node* temp_node_next = (*temp_node).ptr_next;
         
@@ -243,7 +326,7 @@ class linked_list
         // cout<<"erase 삭제후 연결 완료"<<endl;
     }
 
-    void erase(long serial_num_1, long serial_num_2)
+    void erase(long index_1, long index_2)
     {
 
         struct node* temp_node_beginning = NULL;
@@ -252,29 +335,29 @@ class linked_list
         struct node* node_front_ptr_previous = NULL;
         struct node* node_end_ptr_next = NULL;
 
-        if(serial_num_2 - serial_num_1 == 0)
+        if(index_2 - index_1 == 0)
         {
             // cout<<"삭제 구간 분기 확인_0"<<endl;
-            erase(serial_num_1);
+            erase(index_1);
             return;
         }
 
 
-        if(serial_num_2 - serial_num_1 > 0)
+        if(index_2 - index_1 > 0)
         {
             // cout<<"삭제 구간 분기 확인_1"<<endl;
-            temp_node_beginning = search(serial_num_1);//serial_num_1 이 더 작은 수인 경우
-            temp_node_end = search(serial_num_2);
+            temp_node_beginning = search_ptr(index_1);//index_1 이 더 작은 수인 경우
+            temp_node_end = search_ptr(index_2);
             // cout<<"삭제 구간 분기 확인_1 종료"<<endl;
             // cout<<endl<<"ptr_next      : "<<(*head_pointer).ptr_next<<endl;
             // cout<<endl<<"ptr_previous  : "<<(*head_pointer).ptr_previous<<endl<<endl;
             
         }
-        if(serial_num_2 - serial_num_1 < 0)
+        if(index_2 - index_1 < 0)
         {
             // cout<<"삭제 구간 분기 확인_2"<<endl;
-            temp_node_beginning = search(serial_num_2);//serial_num_2 가 더 작은 수인 경우
-            temp_node_end = search(serial_num_1);
+            temp_node_beginning = search_ptr(index_2);//index_2 가 더 작은 수인 경우
+            temp_node_end = search_ptr(index_1);
             // cout<<endl<<"ptr_next      : "<<(*head_pointer).ptr_next<<endl;
             // cout<<endl<<"ptr_previous  : "<<(*head_pointer).ptr_previous<<endl<<endl;
         }
@@ -358,6 +441,11 @@ class linked_list
 
     }
     
+    void insert()
+    {
+        add();
+    }
+
     void insert(long gap_num)
     {
         //일련 번호 관리 필요
@@ -366,14 +454,18 @@ class linked_list
             cout<<"insert place have to be not seprerate"<<endl;
             return;
         }
+
         long gap_num_1 = gap_num-1;
         long gap_num_2 = gap_num;
 
 
-        struct node* temp_front = search(gap_num_1);
+        struct node* temp_front = search_ptr(gap_num_1);
         struct node* new_temp_node = new struct node();
-        struct node* temp_near = search(gap_num_2);
+        struct node* temp_near = search_ptr(gap_num_2);
 
+        length++;//management length
+
+        (*new_temp_node).serial_num = serial++;
         (*new_temp_node).ptr_previous = temp_front;
         (*new_temp_node).ptr_next = temp_near;
 
@@ -387,7 +479,8 @@ class linked_list
         }
         if(temp_near != NULL)
         {
-            (*temp_near).ptr_next = new_temp_node;
+            // (*gap_temp_near).ptr_next = new_node_near;//실수 박제
+            (*temp_near).ptr_previous = new_temp_node;
         }
         else
         {
@@ -409,11 +502,12 @@ class linked_list
         }
         
 
+
         long gap_num_1 = gap_num-1;
         long gap_num_2 = gap_num;
 
-        struct node* gap_temp_front = search(gap_num_1);
-        struct node* gap_temp_near = search(gap_num_2);
+        struct node* gap_temp_front = search_ptr(gap_num_1);
+        struct node* gap_temp_near = search_ptr(gap_num_2);
 
         struct node* new_node_front = NULL;
         struct node* new_node_near = NULL;
@@ -422,7 +516,8 @@ class linked_list
         struct node* new_node_temp_future = NULL;        
 
         new_node_temp_future = new struct node();
-
+        length++;//management length
+        (*new_node_temp_future).serial_num = serial++;
         new_node_front = new_node_temp_future;//set front point
 
         new_node_temp_past = new_node_temp_future;//start point will be 'past' in next process relatively
@@ -431,6 +526,8 @@ class linked_list
         while(number_of_elements > 0)
         {
             new_node_temp_future = new struct node();
+            length++;//management length
+            (*new_node_temp_future).serial_num = serial++;
             (*new_node_temp_future).ptr_previous = new_node_temp_past;
             (*new_node_temp_past).ptr_next = new_node_temp_future;
             new_node_temp_past = new_node_temp_future;
@@ -453,7 +550,8 @@ class linked_list
         }
         if(gap_temp_near != NULL)
         {
-            (*gap_temp_near).ptr_next = new_node_near;
+            // (*gap_temp_near).ptr_next = new_node_near;//실수 박제
+            (*gap_temp_near).ptr_previous = new_node_near;
         }
         else
         {
@@ -461,7 +559,7 @@ class linked_list
         }
     }    
 
-     struct node* search(long serial_num)
+     struct node* search_ptr(long index)
     {
         struct node* temp_1 = head_pointer;
         struct node* temp_2 = tail_pointer;
@@ -470,16 +568,16 @@ class linked_list
         // cout<<"serial_num   : "<<serial_num<<endl;
         // cout<<"length       : "<<length<<endl;
         int i = 0;
-        // cout<<"search 초기화 완료"<<endl;
-        if(serial_num<0 || serial_num > length-1)
+        // cout<<"search_ptr 초기화 완료"<<endl;
+        if(index<0 || index > length-1)
         {
-            cout<<"invalid access : serial_number is out of range-----"<<endl;
+            cout<<"invalid access : index is out of range-----"<<endl;
             return NULL;
         }
-        if(serial_num <= (length/2))
+        if(index <= (length/2))
         {
-            // cout<<"search 분기1 시작"<<endl;
-            while(i < serial_num)
+            // cout<<"search_ptr 분기1 시작"<<endl;
+            while(i < index)
             {
                 temp_2 = (*temp_1).ptr_next; 
                 temp_1 = temp_2;
@@ -487,65 +585,66 @@ class linked_list
             }
             return temp_1;
         }
-        if(serial_num > (length/2))
+        if(index > (length/2))
         {
-            // cout<<"search 분기2 시작"<<endl;
+            // cout<<"search_ptr 분기2 시작"<<endl;
             i = length-1;
-            while(i > serial_num)
+            while(i > index)
             {
                 temp_1 = (*temp_2).ptr_previous; 
-                // cout<<"search 분기2.1 시작"<<endl;
+                // cout<<"search_ptr 분기2.1 시작"<<endl;
                 temp_2 = temp_1;
-                // cout<<"search 분기2.2 시작"<<endl;
+                // cout<<"search_ptr 분기2.2 시작"<<endl;
                 i--;
             }
             return temp_2;
         }
-        // cout<<"search 분기3(나머지)"<<endl;
+        // cout<<"search_ptr 분기3(나머지)"<<endl;
         return NULL;
     }
 
     // void get_ptr()
     // {
         
-    // }// 이미 search 함수에서 포인터를 반환 하고 있음 
+    // }// 이미 search_ptr 함수에서 포인터를 반환 하고 있음 
     template <typename T>
-    void change(long serial_num, int element_number, T input)
+    void change(long index, int element_number, T input)
     {
-        struct node* temp = search(serial_num);
+        struct node* temp = search_ptr(index);
         (*temp).data.edit_data(element_number, input);
         return;
     }
 
-    struct node& get_node_ref(long serial_num)//작동여부가 정확한지 확인 받아보기
+    struct node& search_ref(long index)//작동여부가 정확한지 확인 받아보기
     {
         // get_number_of_elements();
-        struct node* temp = search(serial_num);
+        struct node* temp = search_ptr(index);
+        // cout<<length<<endl;
         
         return (*temp);//굉장히 위험한 코드//반드시 참조자로 변환할 것.
     }
 
 
-    void dump(long serial_num)
+    void dump(long index)
     {
         cout<<"덤핑 시작"<<endl;        
         struct node* temp_1 = head_pointer;
         struct node* temp_2 = tail_pointer;
 
-        if(serial_num<=0 || serial_num > length-1)
+        if(index<=0 || index > length-1)
         {
-            cout<<"invalid access : serial_number is out of range"<<endl;
+            cout<<"invalid access : index is out of range"<<endl;
             return;
         }
             int i = 0;
-            while(i < serial_num)
+            while(i < index)
             {
                 (*temp_1).data.dump();
                 temp_2 = (*temp_1).ptr_next; 
                 temp_1 = temp_2;
                 i++;
             }
-            cout<<"덤핑 완료"<<endl;
+            cout<<"----------"<<endl<<"덤핑 완료"<<endl;
         return;
     }
 
@@ -561,29 +660,114 @@ class linked_list
                 temp_2 = (*temp_1).ptr_next; 
                 temp_1 = temp_2;
             }
-        cout<<"덤핑 완료"<<endl;
+        cout<<"----------"<<endl<<"덤핑 완료"<<endl;
         return;
     }
 
-    void serial_number_initialize()
+    void dump_all_serial_num()
     {
-
         cout<<"덤핑 시작"<<endl;        
         struct node* temp_1 = head_pointer;
         struct node* temp_2 = tail_pointer;
 
         while(temp_2 != NULL)
             {
+                cout<<"---<"<<(*temp_1).serial_num<<">---"<<endl;
                 (*temp_1).data.dump();
                 temp_2 = (*temp_1).ptr_next; 
                 temp_1 = temp_2;
-                
             }
-        cout<<"덤핑 완료"<<endl;
+        cout<<"----------"<<endl<<"덤핑 완료"<<endl;
         return;
     }
 
-    // void dump(long serial_num_1, long serial_num_2)
+    void serial_num_init()
+    {
+        serial = 0;
+        struct node* temp_1 = head_pointer;
+        struct node* temp_2 = tail_pointer;
+
+        while(temp_2 != NULL)
+            {
+                (*temp_1).serial_num = serial;
+                temp_2 = (*temp_1).ptr_next; 
+                temp_1 = temp_2;
+                serial++;
+            }
+        cout<<"complete init serial number"<<endl;
+        return;
+    }
+
+    void clear()
+    {
+        serial = 0;
+        struct node* temp_1 = head_pointer;
+        struct node* temp_2 = tail_pointer;
+
+        while(temp_2 != NULL)
+            {
+
+                // memset(arr1, 'c', 5 * sizeof(char));
+                // 출처: https://blockdmask.tistory.com/441 [개발자 지망생]
+                memset((&(*temp_1).data), 0, sizeof((*temp_1).data));
+                // (*temp_1).data = serial;
+                temp_2 = (*temp_1).ptr_next; 
+                temp_1 = temp_2;
+                serial++;
+            }
+        cout<<"complete init data"<<endl;
+        return;
+    }
+
+    void help()
+    {
+        cout<<"----------<HELP>----------"<<endl;
+        cout<<"<list_class>"<<endl;
+        cout<<""<<endl;
+        cout<<"-CREATE-"<<endl;
+        cout<<""<<endl;
+        cout<<"linked_list LIST_NAME(NUM);                      : create list with NUM of node"<<endl;
+        cout<<"linked_list LIST_NAME();                         : create list without node"<<endl;
+        cout<<""<<endl;
+        cout<<"-USE-"<<endl;
+        cout<<""<<endl;
+        cout<<"▷ GENERAL"<<endl;
+        cout<<""<<endl;
+        cout<<"LIST_NAME.help();                                : show help list"<<endl;
+        cout<<""<<endl;
+        cout<<"▶ NODE_management"<<endl;
+        cout<<""<<endl;
+        cout<<"LIST_NAME.get_length()                           : return length"<<endl;
+        cout<<"LIST_NAME.add()                                  : add a node as last node"<<endl;
+        cout<<"LIST_NAME.add(NUM)                               : add NUM of nodes as last node"<<endl;
+        cout<<"LIST_NAME.substract()                            : erease last node"<<endl;
+        cout<<"LIST_NAME.erease()                               : == substract"<<endl;
+        cout<<"LIST_NAME.erease(INDEX)                          : erease a node of index"<<endl;
+        cout<<"LIST_NAME.erease(INDEX_1, INDEX_2)               : erease nodes of range INDEX_1 to INDEX_2"<<endl;
+        cout<<"LIST_NAME.insert()                               : == add"<<endl;
+        cout<<"LIST_NAME.insert(INDEX)                          : insert new a node that node have index as INDEX"<<endl;
+        cout<<"LIST_NAME.insert(INDEX, NUM)                     : insert new NUM of nodes from INDEX"<<endl;
+        cout<<"LIST_NAME.search_ptr(INDEX)                      : return <struct node*> of INEDX"<<endl;
+        cout<<"LIST_NAME.search_ref(INDEX)                      : retuen <struct node&> of INEDX"<<endl;
+        cout<<"LIST_NAME.serial_num_init()                      : reset and redefine serial number of nodes 0 to length-1"<<endl;
+        cout<<""<<endl;
+        cout<<"▷ DATA_management"<<endl;
+        cout<<""<<endl;
+        cout<<"LISTNAME.dump(INDEX)                             : out-put data of nodes untill reach INDEX of node from first node"<<endl;
+        cout<<"LISTNAME.dump_all()                              : out-put data of nodes untill reach last node from first node"<<endl;
+        cout<<"LISTNAME.dump_all_serial_num()                   : dump data with serial_number"<<endl;
+        cout<<"LISTNAME.change(INDEX, NUM, INPUT)               : edit INDEX_node data of <NUM>-th as INPUT"<<endl;
+        cout<<""<<endl;
+        cout<<"▶ DATA_use_meber_function"<<endl;
+        cout<<""<<endl;
+        cout<<"LISTNAME.search_ref(INDEX).data.get_property()   : show instruction for property of data "<<endl;
+        cout<<"LISTNAME.search_ref(INDEX).data.get_data_NUM()   : return INDEX_node data of <NUM>-th as INPUT"<<endl;
+        cout<<""<<endl;
+        cout<<"----------<HELP>----------"<<endl;
+        cout<<""<<endl;
+    }
+
+    // void dump(long index_1, long index_2)
     // {
     //     if(serial_num<=0 || serial_num > length)
     //     {
@@ -640,31 +824,112 @@ int main()
     list_1.add(7);
     cout<<"생성완료"<<endl;
 
-    // struct node* COUT_TEMP = list_1.search(3);
+    // struct node* COUT_TEMP = list_1.search_ptr(3);
     // cout<<endl<<"head           : "<<(*COUT_TEMP).serial_num<<endl;
     // cout<<endl<<"tail           : "<<list_1.tail_pointer<<endl<<endl;
 
-
-    cout<<"삭제 전 길이 확인_2"<<endl;
-    cout<<list_1.get_length()<<endl;
-    list_1.erase(5, 9);//마지막 요소를 삭제 했을때 메모리 누출에러
-    cout<<"삭제 후 길이 확인_2"<<endl;
+    list_1.help();
     cout<<list_1.get_length()<<endl;
     list_1.dump_all();
-    cout<<"전체 덤핑 출력_3"<<endl;
-    cout<<list_1.get_node_ref(2).data.get_data_0()<<endl;
-    cout<<list_1.get_node_ref(2).data.get_data_1()<<endl;
+    list_1.dump_all_serial_num();
+    list_1.clear();
+    list_1.dump_all_serial_num();
+
+    list_1.change(0, 0, "가족");
+    list_1.change(2, 0, "사랑");
+    list_1.change(2, 1, 486);
+    list_1.change(3, 0, "천사");
+    list_1.change(3, 1, 1004);
+    list_1.change(7, 0, "무관심");
+    list_1.change(7, 1, 104+97+116+101);
+    list_1.change(8, 1, 7942);
+    list_1.change(9, 0, "미움");
+    list_1.dump_all_serial_num();
+    list_1.erase();
+    list_1.dump_all_serial_num();
+    list_1.erase(7);
+    list_1.dump_all_serial_num();
+    list_1.erase(4, 6);
+    list_1.dump_all_serial_num();
+    list_1.serial_num_init();
+    list_1.dump_all_serial_num();
+    list_1.insert(0);//삽입 함수에 문제가 있는 것으로 추정되는 에러 발견
+    list_1.dump_all_serial_num();
+    list_1.insert(2, 5);//삽입 함수에 문제가 있는 것으로 추정되는 에러 발견
+    list_1.dump_all_serial_num();
+    list_1.serial_num_init();
+    list_1.dump_all_serial_num();
+    cout<<list_1.search_ref(8).data.get_data_0()<<endl;
+    cout<<list_1.search_ref(8).data.get_data_1()<<endl;
+    // list_1.dump_all_serial_num();
+    cout<<""<<endl;
+    cout<<"길이 확인"<<endl;
+    cout<<list_1.get_length()<<endl;
+
+    list_1.erase(0);
+    list_1.erase(1, 6);
+    list_1.serial_num_init();
+    list_1.dump_all_serial_num();
+
+
+
+
+    cout<<list_1.search_ref(2).data.get_data_0()<<endl;
+    cout<<list_1.search_ref(2).data.get_data_1()<<endl;
 
 
     return 0;
 }
 
 
-//소멸자 애러 해결 완료
+//소멸자 애러 해결 완료 V
 
 
 //남은일
-//초기화 메소드
-//일련번호 정리 메소드
-//get_value, 값을 가져오는 메소드 
+//초기화 메소드 V
+//일련번호 정리 메소드 V
+//get_value, 값을 가져오는 메소드 V 
 
+// ----------<HELP>----------
+// <list_class>
+
+// -CREATE-
+
+// linked_list LIST_NAME(NUM);                      : create list with NUM of node
+// linked_list LIST_NAME();                         : create list without node
+
+// -USE-
+
+// ▷ GENERAL
+
+// LIST_NAME.help();                                : show help list
+
+// ▶ NODE_management
+
+// LIST_NAME.get_length()                           : return length
+// LIST_NAME.add()                                  : add a node as last node
+// LIST_NAME.add(NUM)                               : add NUM of nodes as last node
+// LIST_NAME.substract()                            : erease last node
+// LIST_NAME.erease()                               : == substract
+// LIST_NAME.erease(INDEX)                          : erease a node of index
+// LIST_NAME.erease(INDEX_1, INDEX_2)               : erease nodes of range INDEX_1 to INDEX_2
+// LIST_NAME.insert()                               : == add
+// LIST_NAME.insert(INDEX)                          : insert new a node that node have index as INDEX
+// LIST_NAME.insert(INDEX, NUM)                     : insert new NUM of nodes from INDEX
+// LIST_NAME.search_ptr(INDEX)                      : return <struct node*> of INEDX
+// LIST_NAME.search_ref(INDEX)                      : retuen <struct node&> of INEDX
+// LIST_NAME.serial_num_init()                      : reset and redefine serial number of nodes 0 to length-1
+
+// ▷ DATA_management
+
+// LISTNAME.dump(INDEX)                             : out-put data of nodes untill reach INDEX of node from first node
+// LISTNAME.dump_all()                              : out-put data of nodes untill reach last node from first node
+// LISTNAME.dump_all_serial_num()                   : dump data with serial_number
+// LISTNAME.change(INDEX, NUM, INPUT)               : edit INDEX_node data of <NUM>-th as INPUT
+
+// ▶ DATA_use_meber_function
+
+// LISTNAME.search_ref(INDEX).data.get_property()   : show instruction for property of data 
+// LISTNAME.search_ref(INDEX).data.get_data_NUM()   : return INDEX_node data of <NUM>-th as INPUT
+
+// ----------<HELP>----------
