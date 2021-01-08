@@ -147,12 +147,12 @@ class example_data//data 의 형태나 종류만 편집하면  node에 다른 �
         switch(element_number)
         {
             case 0:
-            cout<<"자료변경 메소드 분기 0 시작"<<endl;
+            // cout<<"자료변경 메소드 분기 0 시작"<<endl;
             str = input;
 
             break;
             case 1:
-            cout<<"자료변경 메소드 분기 1 시작"<<endl;
+            // cout<<"자료변경 메소드 분기 1 시작"<<endl;
             
             num = (long) input;
             
@@ -204,10 +204,10 @@ class linked_list
     {
         length = 0;//(=//this();   //?)
         serial = 0;
-        cout<<"생성자 호출 완료"<<endl;
+        // cout<<"생성자 호출 완료"<<endl;
         // head_pointer = new struct node();
         add(input_length);
-        cout<<"생성자 동작 완료"<<endl;
+        // cout<<"생성자 동작 완료"<<endl;
     }
     
     long get_length()
@@ -220,32 +220,32 @@ class linked_list
         long i = 0;
         while(i < number_of_elements)
         {
-        cout<<"add 호출 완료"<<endl;
+        // cout<<"add 호출 완료"<<endl;
         struct node* temp_node = NULL;
         struct node* temp_node_previous = NULL;
         //make 2 temporary spaces
         temp_node_previous = tail_pointer;//get ptr of previous node(=last node). tail_pointer: had been initialized to NULL;
-        cout<<"add 초기화 완료"<<endl;
+        // cout<<"add 초기화 완료"<<endl;
         if(head_pointer == NULL)
         {
             head_pointer = new struct node();
-            cout<<"add 분기1 완료"<<endl;
+            // cout<<"add 분기1 완료"<<endl;
             temp_node = head_pointer;
         }
         else
         {
             temp_node = new struct node();
-            cout<<"add 분기2 완료"<<endl;
+            // cout<<"add 분기2 완료"<<endl;
             (*temp_node_previous).ptr_next = temp_node;
         }
-        cout<<"add 노드할당 완료"<<endl;
+        // cout<<"add 노드할당 완료"<<endl;
         (*temp_node).ptr_previous = temp_node_previous;
         (*temp_node).ptr_next = NULL;
         (*temp_node).serial_num = serial++;//management length
-        cout<<"add 노드연결 및 순번매기기 완료"<<endl;
+        // cout<<"add 노드연결 및 순번매기기 완료"<<endl;
         //linking and set serial_num
         tail_pointer = temp_node;
-        cout<<"add 꼬리노드 대입연산 완료"<<endl;
+        // cout<<"add 꼬리노드 대입연산 완료"<<endl;
 
         length++;
         i++;
@@ -269,7 +269,7 @@ class linked_list
         
     // }
 
-    void substract()
+    void substrct()
     {
         
         struct node* temp_node = tail_pointer;
@@ -291,9 +291,9 @@ class linked_list
         
         length--;//management length
         
-        cout<<"erase 초기화 완료"<<endl;
-        cout<<(void*)temp_node_previous<<endl;
-        cout<<(void*)temp_node_next<<endl;
+        // cout<<"erase 초기화 완료"<<endl;
+        // cout<<(void*)temp_node_previous<<endl;
+        // cout<<(void*)temp_node_next<<endl;
         
 
         delete temp_node;
@@ -314,7 +314,7 @@ class linked_list
         (*temp_node_previous).ptr_next = (struct node*)temp_node_next;
         (*temp_node_next).ptr_previous = (struct node*)temp_node_previous;
 
-        cout<<"erase 삭제후 연결 완료"<<endl;
+        // cout<<"erase 삭제후 연결 완료"<<endl;
     }
 
     void erase(long serial_num_1, long serial_num_2)
@@ -328,7 +328,7 @@ class linked_list
 
         if(serial_num_2 - serial_num_1 == 0)
         {
-            cout<<"삭제 구간 분기 확인_0"<<endl;
+            // cout<<"삭제 구간 분기 확인_0"<<endl;
             erase(serial_num_1);
             return;
         }
@@ -336,43 +336,43 @@ class linked_list
 
         if(serial_num_2 - serial_num_1 > 0)
         {
-            cout<<"삭제 구간 분기 확인_1"<<endl;
+            // cout<<"삭제 구간 분기 확인_1"<<endl;
             temp_node_beginning = search(serial_num_1);//serial_num_1 이 더 작은 수인 경우
             temp_node_end = search(serial_num_2);
-            cout<<"삭제 구간 분기 확인_1 종료"<<endl;
-            cout<<endl<<"ptr_next      : "<<(*head_pointer).ptr_next<<endl;
-            cout<<endl<<"ptr_previous  : "<<(*head_pointer).ptr_previous<<endl<<endl;
+            // cout<<"삭제 구간 분기 확인_1 종료"<<endl;
+            // cout<<endl<<"ptr_next      : "<<(*head_pointer).ptr_next<<endl;
+            // cout<<endl<<"ptr_previous  : "<<(*head_pointer).ptr_previous<<endl<<endl;
             
         }
         if(serial_num_2 - serial_num_1 < 0)
         {
-            cout<<"삭제 구간 분기 확인_2"<<endl;
+            // cout<<"삭제 구간 분기 확인_2"<<endl;
             temp_node_beginning = search(serial_num_2);//serial_num_2 가 더 작은 수인 경우
             temp_node_end = search(serial_num_1);
-            cout<<endl<<"ptr_next      : "<<(*head_pointer).ptr_next<<endl;
-            cout<<endl<<"ptr_previous  : "<<(*head_pointer).ptr_previous<<endl<<endl;
+            // cout<<endl<<"ptr_next      : "<<(*head_pointer).ptr_next<<endl;
+            // cout<<endl<<"ptr_previous  : "<<(*head_pointer).ptr_previous<<endl<<endl;
         }
 
-        cout<<"------------------------------"<<endl;
-        cout<<endl<<"ptr_next       : "<<(*temp_node_beginning).ptr_next<<endl;
-        cout<<endl<<"ptr_           : "<<temp_node_beginning<<endl;
-        cout<<endl<<"ptr_previous   : "<<(*temp_node_beginning).ptr_previous<<endl<<endl;
-        cout<<endl<<"ptr_next       : "<<(*temp_node_end).ptr_next<<endl;
-        cout<<endl<<"ptr_           : "<<temp_node_end<<endl;
-        cout<<endl<<"ptr_previous   : "<<(*temp_node_end).ptr_previous<<endl<<endl;
-        cout<<"------------------------------"<<endl;
+        // cout<<"------------------------------"<<endl;
+        // cout<<endl<<"ptr_next       : "<<(*temp_node_beginning).ptr_next<<endl;
+        // cout<<endl<<"ptr_           : "<<temp_node_beginning<<endl;
+        // cout<<endl<<"ptr_previous   : "<<(*temp_node_beginning).ptr_previous<<endl<<endl;
+        // cout<<endl<<"ptr_next       : "<<(*temp_node_end).ptr_next<<endl;
+        // cout<<endl<<"ptr_           : "<<temp_node_end<<endl;
+        // cout<<endl<<"ptr_previous   : "<<(*temp_node_end).ptr_previous<<endl<<endl;
+        // cout<<"------------------------------"<<endl;
 
         node_front_ptr_previous = (*temp_node_beginning).ptr_previous;
         node_end_ptr_next = (*temp_node_end).ptr_next;
         
-        cout<<"------------------------------"<<endl;
+        // cout<<"------------------------------"<<endl;
         // cout<<endl<<"ptr_next       : "<<(*node_front_ptr_previous).ptr_next<<endl;
         // cout<<endl<<"ptr_           : "<<node_front_ptr_previous<<endl;
         // cout<<endl<<"ptr_previous   : "<<(*node_front_ptr_previous).ptr_previous<<endl<<endl;
         // cout<<endl<<"ptr_next       : "<<(*node_end_ptr_next).ptr_next<<endl;
         // cout<<endl<<"ptr_           : "<<node_end_ptr_next<<endl;
         // cout<<endl<<"ptr_previous   : "<<(*node_end_ptr_next).ptr_previous<<endl<<endl;
-        cout<<"------------------------------"<<endl;
+        // cout<<"------------------------------"<<endl;
 
         struct node* temp_1 = temp_node_beginning;
 
@@ -388,9 +388,9 @@ class linked_list
 
         while(temp_1 != NULL)//맨 뒤 부터 중간까지 지워나갈 때 중단하지 못 하는 오류 발견...?
         {
-            cout<<endl<<"ptr_next       : "<<(*temp_1).ptr_next<<endl;
-            cout<<endl<<"ptr_           : "<<temp_1<<endl;
-            cout<<endl<<"ptr_previous   : "<<(*temp_1).ptr_previous<<endl<<endl;
+            // cout<<endl<<"ptr_next       : "<<(*temp_1).ptr_next<<endl;
+            // cout<<endl<<"ptr_           : "<<temp_1<<endl;
+            // cout<<endl<<"ptr_previous   : "<<(*temp_1).ptr_previous<<endl<<endl;
             // cout<<"삭제 내용 확인 시작"<<endl;
             // (*temp_2).data.dump();
             // cout<<"삭제 내용 확인 종료"<<endl;
@@ -402,30 +402,29 @@ class linked_list
         
         if(node_front_ptr_previous == NULL && node_end_ptr_next != NULL)//head_pointer가 삭제 및 재설정되는 상황
         {
-            cout<<"삭제 분기 확인_1"<<endl;
+            // cout<<"삭제 분기 확인_1"<<endl;
             head_pointer = node_end_ptr_next;
             (*head_pointer).ptr_previous = NULL;
         }
         if(node_front_ptr_previous != NULL && node_end_ptr_next == NULL)//tail_pointer가 삭제 및 재설정되는 상황
         {
-            
-            cout<<"삭제 분기 확인_2"<<endl;
-            cout<<endl<<"ptr_next      : "<<(*head_pointer).ptr_next<<endl;
-            cout<<endl<<"ptr_previous  : "<<(*tail_pointer).ptr_previous<<endl<<endl;
+            // cout<<"삭제 분기 확인_2"<<endl;
+            // cout<<endl<<"ptr_next      : "<<(*head_pointer).ptr_next<<endl;
+            // cout<<endl<<"ptr_previous  : "<<(*tail_pointer).ptr_previous<<endl<<endl;
             tail_pointer = node_front_ptr_previous;
             (*tail_pointer).ptr_next = NULL;
-            cout<<endl<<"ptr_next      : "<<(*head_pointer).ptr_next<<endl;
-            cout<<endl<<"ptr_previous  : "<<(*tail_pointer).ptr_previous<<endl<<endl;
+            // cout<<endl<<"ptr_next      : "<<(*head_pointer).ptr_next<<endl;
+            // cout<<endl<<"ptr_previous  : "<<(*tail_pointer).ptr_previous<<endl<<endl;
         }
         if(node_front_ptr_previous == NULL && node_end_ptr_next == NULL)//head_pointer 와 tail_pointer가 모두 삭제 및 NULL로 재설정되는 상황//전체삭제의 경우
         {
-            cout<<"삭제 분기 확인_3"<<endl;
+            // cout<<"삭제 분기 확인_3"<<endl;
             head_pointer = NULL;
             tail_pointer = NULL;
         }
         if(node_front_ptr_previous != NULL && node_end_ptr_next != NULL)//리스트의 중간 부분이 삭제되어 연결이 재설정되는 상황//중간삭제의 경우
         {
-            cout<<"삭제 분기 확인_3"<<endl;
+            // cout<<"삭제 분기 확인_3"<<endl;
             (*node_front_ptr_previous).ptr_next = node_end_ptr_next;
             (*node_end_ptr_next).ptr_previous = node_front_ptr_previous;
         }
@@ -540,12 +539,12 @@ class linked_list
     {
         struct node* temp_1 = head_pointer;
         struct node* temp_2 = tail_pointer;
-        cout<<"head_pointer : "<<head_pointer<<endl;
-        cout<<"tail_pointer : "<<tail_pointer<<endl;
-        cout<<"serial_num   : "<<serial_num<<endl;
-        cout<<"length       : "<<length<<endl;
+        // cout<<"head_pointer : "<<head_pointer<<endl;
+        // cout<<"tail_pointer : "<<tail_pointer<<endl;
+        // cout<<"serial_num   : "<<serial_num<<endl;
+        // cout<<"length       : "<<length<<endl;
         int i = 0;
-        cout<<"search 초기화 완료"<<endl;
+        // cout<<"search 초기화 완료"<<endl;
         if(serial_num<0 || serial_num > length-1)
         {
             cout<<"invalid access : serial_number is out of range-----"<<endl;
@@ -553,7 +552,7 @@ class linked_list
         }
         if(serial_num <= (length/2))
         {
-            cout<<"search 분기1 시작"<<endl;
+            // cout<<"search 분기1 시작"<<endl;
             while(i < serial_num)
             {
                 temp_2 = (*temp_1).ptr_next; 
@@ -564,19 +563,19 @@ class linked_list
         }
         if(serial_num > (length/2))
         {
-            cout<<"search 분기2 시작"<<endl;
+            // cout<<"search 분기2 시작"<<endl;
             i = length-1;
             while(i > serial_num)
             {
                 temp_1 = (*temp_2).ptr_previous; 
-                cout<<"search 분기2.1 시작"<<endl;
+                // cout<<"search 분기2.1 시작"<<endl;
                 temp_2 = temp_1;
-                cout<<"search 분기2.2 시작"<<endl;
+                // cout<<"search 분기2.2 시작"<<endl;
                 i--;
             }
             return temp_2;
         }
-        cout<<"search 분기3(나머지)"<<endl;
+        // cout<<"search 분기3(나머지)"<<endl;
         return NULL;
     }
 
