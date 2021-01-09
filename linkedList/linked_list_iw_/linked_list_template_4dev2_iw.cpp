@@ -1,5 +1,5 @@
 /*
- * file name : linked_list_iw_4release.cpp
+ * file name : linked_list_template_4dev2_iw.cpp
  * created   : 2021-01-09
  * modified  : 2021-01-09
  * author    : iw (sangwoo kim)
@@ -48,6 +48,7 @@ class standard_data//data 의 형태나 종류만 편집하면  node에 다른 �
     template <typename K>//템플릿의 적용범위는 정확히 어디까지지??// 바로 아래 함수까지 만이라고 합니다.
     void edit_data(int element_number, K input)
     {
+        
         switch(element_number)
         {
             case 0:
@@ -829,6 +830,7 @@ int main()
     list_2.serial_num_init();
     list_2.dump_all_serial_num();
     cout<<list_2.search_ref(8).data.get_data_0()<<endl;
+    // cout<<list_2.search_ref(8).data.get_data_1()<<endl;
 
     cout<<""<<endl;
     cout<<"길이 확인"<<endl;
@@ -846,6 +848,8 @@ int main()
     list_2.dump_serial_num(2, 1);
 
     cout<<list_2.search_ref(2).data.get_data_0()<<endl;
+    // cout<<list_2.search_ref(2).data.get_data_1()<<endl;
+
 
     return 0;
 }
@@ -855,8 +859,10 @@ int main()
 
 // -CREATE-
 
-// linked_list LIST_NAME(NUM);                      : create list with NUM of node
+// linked_list<T> LIST_NAME();                      : create T type list without node
 // linked_list LIST_NAME();                         : create list without node
+// linked_list LIST_NAME(NUM);                      : create list with NUM of node
+// T                                                : INPUT type for tamplate : It is provided basic type and user-def type('example_data' is already include for user-def)
 
 // -USE-
 
@@ -882,13 +888,16 @@ int main()
 
 // ▷ DATA_management
 
-// LISTNAME.dump(INDEX)                             : out-put data of nodes untill reach INDEX of node from first node
+// LISTNAME.dump(INDEX)                             : out-put data of nodes, untill reach INDEX of node from first node
+// LISTNAME.dump(INDEX_1, INDEX_2)                  : out-put data of nodes, untill reach INDEX_2 of node from INDEX_1
+// LISTNAME.dump_serial_num(INDEX_1, INDEX_2)       : out-put serial_number and data of nodes, untill reach INDEX_2 of node from INDEX_1
 // LISTNAME.dump_all()                              : out-put data of nodes untill reach last node from first node
-// LISTNAME.dump_all_serial_num()                   : dump data with serial_number
+// LISTNAME.dump_all_serial_num()                   : dump_all data with serial_number
 // LISTNAME.change(INDEX, NUM, INPUT)               : edit INDEX_node data of <NUM>-th as INPUT
 
 // ▶ DATA_use_member_function
 
+// LISTNAME.search_ref(INDEX).data.get_elements_N() : show number of elements in data 
 // LISTNAME.search_ref(INDEX).data.get_property()   : show instruction for property of data 
 // LISTNAME.search_ref(INDEX).data.get_data_NUM()   : return INDEX_node data of <NUM>-th as OUTPUT
 
