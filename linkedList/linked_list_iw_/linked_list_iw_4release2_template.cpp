@@ -664,8 +664,10 @@ class linked_list
         cout<<""<<endl;
         cout<<"-CREATE-"<<endl;
         cout<<""<<endl;
-        cout<<"linked_list LIST_NAME(NUM);                      : create list with NUM of node"<<endl;
+        cout<<"linked_list<T> LIST_NAME();                      : create T type list without node"<<endl;
         cout<<"linked_list LIST_NAME();                         : create list without node"<<endl;
+        cout<<"linked_list LIST_NAME(NUM);                      : create list with NUM of node"<<endl;
+        cout<<"T                                                : INPUT type for tamplate : It is provided basic type and user-def type('example_data' is already include for user-def)"<<endl;
         cout<<""<<endl;
         cout<<"-USE-"<<endl;
         cout<<""<<endl;
@@ -796,22 +798,21 @@ int main()
     cout<<list_1.search_ref(2).data.get_data_1()<<endl;
 
 
-    list_2.help();
+    cout<<"-------------------------------------------------------------------------------------"<<endl;
+
+
     cout<<list_2.get_length()<<endl;
     list_2.dump_all();
     list_2.dump_all_serial_num();
     list_2.clear();
     list_2.dump_all_serial_num();
 
-    // list_2.change(0, 0, "가족");
-    // list_2.change(2, 0, "사랑");
-    // list_2.change(2, 1, 486);
-    // list_2.change(3, 0, "천사");
-    // list_2.change(3, 1, 1004);
-    // list_2.change(7, 0, "무관심");
-    // list_2.change(7, 1, 104+97+116+101);
-    // list_2.change(8, 1, 7942);
-    // list_2.change(9, 0, "미움");
+    list_2.change(2, 0, 486);
+    list_2.change(3, 0, 1004);
+    list_2.change(4, 0, 271828182845);
+    list_2.change(5, 0, 7942);
+    list_2.change(6, 0, 31415926545);
+
     list_2.dump_all_serial_num();
     list_2.erase();
     list_2.dump_all_serial_num();
@@ -828,7 +829,6 @@ int main()
     list_2.serial_num_init();
     list_2.dump_all_serial_num();
     cout<<list_2.search_ref(8).data.get_data_0()<<endl;
-    // cout<<list_2.search_ref(8).data.get_data_1()<<endl;
 
     cout<<""<<endl;
     cout<<"길이 확인"<<endl;
@@ -846,8 +846,6 @@ int main()
     list_2.dump_serial_num(2, 1);
 
     cout<<list_2.search_ref(2).data.get_data_0()<<endl;
-    // cout<<list_2.search_ref(2).data.get_data_1()<<endl;
-
 
     return 0;
 }

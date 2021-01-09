@@ -48,6 +48,7 @@ class standard_data//data 의 형태나 종류만 편집하면  node에 다른 �
     template <typename K>//템플릿의 적용범위는 정확히 어디까지지??// 바로 아래 함수까지 만이라고 합니다.
     void edit_data(int element_number, K input)
     {
+        
         switch(element_number)
         {
             case 0:
@@ -664,8 +665,10 @@ class linked_list
         cout<<""<<endl;
         cout<<"-CREATE-"<<endl;
         cout<<""<<endl;
-        cout<<"linked_list LIST_NAME(NUM);                      : create list with NUM of node"<<endl;
+        cout<<"linked_list<T> LIST_NAME();                      : create T type list without node"<<endl;
         cout<<"linked_list LIST_NAME();                         : create list without node"<<endl;
+        cout<<"linked_list LIST_NAME(NUM);                      : create list with NUM of node"<<endl;
+        cout<<"T                                                : INPUT type for tamplate : It is provided basic type and user-def type('example_data' is already include for user-def)"<<endl;
         cout<<""<<endl;
         cout<<"-USE-"<<endl;
         cout<<""<<endl;
@@ -796,22 +799,21 @@ int main()
     cout<<list_1.search_ref(2).data.get_data_1()<<endl;
 
 
-    list_2.help();
+    cout<<"-------------------------------------------------------------------------------------"<<endl;
+
+
     cout<<list_2.get_length()<<endl;
     list_2.dump_all();
     list_2.dump_all_serial_num();
     list_2.clear();
     list_2.dump_all_serial_num();
 
-    // list_2.change(0, 0, "가족");
-    // list_2.change(2, 0, "사랑");
-    // list_2.change(2, 1, 486);
-    // list_2.change(3, 0, "천사");
-    // list_2.change(3, 1, 1004);
-    // list_2.change(7, 0, "무관심");
-    // list_2.change(7, 1, 104+97+116+101);
-    // list_2.change(8, 1, 7942);
-    // list_2.change(9, 0, "미움");
+    list_2.change(2, 0, 486);
+    list_2.change(3, 0, 1004);
+    list_2.change(4, 0, 271828182845);
+    list_2.change(5, 0, 7942);
+    list_2.change(6, 0, 31415926545);
+
     list_2.dump_all_serial_num();
     list_2.erase();
     list_2.dump_all_serial_num();
@@ -857,8 +859,10 @@ int main()
 
 // -CREATE-
 
-// linked_list LIST_NAME(NUM);                      : create list with NUM of node
+// linked_list<T> LIST_NAME();                      : create T type list without node
 // linked_list LIST_NAME();                         : create list without node
+// linked_list LIST_NAME(NUM);                      : create list with NUM of node
+// T                                                : INPUT type for tamplate : It is provided basic type and user-def type('example_data' is already include for user-def)
 
 // -USE-
 
@@ -884,13 +888,16 @@ int main()
 
 // ▷ DATA_management
 
-// LISTNAME.dump(INDEX)                             : out-put data of nodes untill reach INDEX of node from first node
+// LISTNAME.dump(INDEX)                             : out-put data of nodes, untill reach INDEX of node from first node
+// LISTNAME.dump(INDEX_1, INDEX_2)                  : out-put data of nodes, untill reach INDEX_2 of node from INDEX_1
+// LISTNAME.dump_serial_num(INDEX_1, INDEX_2)       : out-put serial_number and data of nodes, untill reach INDEX_2 of node from INDEX_1
 // LISTNAME.dump_all()                              : out-put data of nodes untill reach last node from first node
-// LISTNAME.dump_all_serial_num()                   : dump data with serial_number
+// LISTNAME.dump_all_serial_num()                   : dump_all data with serial_number
 // LISTNAME.change(INDEX, NUM, INPUT)               : edit INDEX_node data of <NUM>-th as INPUT
 
 // ▶ DATA_use_member_function
 
+// LISTNAME.search_ref(INDEX).data.get_elements_N() : show number of elements in data 
 // LISTNAME.search_ref(INDEX).data.get_property()   : show instruction for property of data 
 // LISTNAME.search_ref(INDEX).data.get_data_NUM()   : return INDEX_node data of <NUM>-th as OUTPUT
 
