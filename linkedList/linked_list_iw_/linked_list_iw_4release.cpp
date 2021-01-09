@@ -637,7 +637,7 @@ class linked_list
         cout<<"LISTNAME.dump_all_serial_num()                   : dump_all data with serial_number"<<endl;
         cout<<"LISTNAME.change(INDEX, NUM, INPUT)               : edit INDEX_node data of <NUM>-th as INPUT"<<endl;
         cout<<""<<endl;
-        cout<<"▶ DATA_use_meber_function"<<endl;
+        cout<<"▶ DATA_use_member_function"<<endl;
         cout<<""<<endl;
         cout<<"LISTNAME.search_ref(INDEX).data.get_elements_N() : show number of elements in data "<<endl;
         cout<<"LISTNAME.search_ref(INDEX).data.get_property()   : show instruction for property of data "<<endl;
@@ -770,7 +770,7 @@ int main()
 // LISTNAME.dump_all_serial_num()                   : dump data with serial_number
 // LISTNAME.change(INDEX, NUM, INPUT)               : edit INDEX_node data of <NUM>-th as INPUT
 
-// ▶ DATA_use_meber_function
+// ▶ DATA_use_member_function
 
 // LISTNAME.search_ref(INDEX).data.get_property()   : show instruction for property of data 
 // LISTNAME.search_ref(INDEX).data.get_data_NUM()   : return INDEX_node data of <NUM>-th as OUTPUT
