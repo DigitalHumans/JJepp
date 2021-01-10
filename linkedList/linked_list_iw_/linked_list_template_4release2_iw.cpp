@@ -17,7 +17,7 @@ class standard_data//data 의 형태나 종류만 편집하면  node에 다른 �
 {
     private:
     T value;
-    
+
     int number_of_elements = 1;
     
     public:
@@ -45,9 +45,9 @@ class standard_data//data 의 형태나 종류만 편집하면  node에 다른 �
     
     //http://www.tcpschool.com/cpp/cpp_template_function
     //템플릿에 관한 부분
-    template <typename K>//템플릿의 적용범위는 정확히 어디까지지??// 바로 아래 함수까지 만이라고 합니다.
-    void edit_data(int element_number, K input)
+    void edit_data(int element_number, T input)
     {
+        
         switch(element_number)
         {
             case 0:
