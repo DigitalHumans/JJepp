@@ -1,12 +1,12 @@
 /* File name: LJLeeLinkedList.cpp
  * Created Date: 6th Jan. 2021
- * Last Modified: 6th Jan. 2021
+ * Last Modified: 11th Jan. 2021
  * Description: A simple Double Linked List example code
  * License: JJe++ License(See Announcement)
  * */
 // headers
 #include <iostream>
-#include <exception>
+#include <stdexcept>
 using namespace std;
 
 //data types
@@ -79,7 +79,7 @@ public:
     const int& operator[](long long i)
     {
         if (!goto_index(i))
-            throw exception();
+            throw out_of_range("Index Out of Range!");
         return current->data;
     }
     void append(const int& data)
@@ -103,7 +103,7 @@ public:
     const int remove_at(long long i)
     {
         if (!goto_index(i))
-            throw exception();
+            throw out_of_range("Index Out of Range!");
         auto retval = current->data;
         if (current == head)
             head = current->next();
