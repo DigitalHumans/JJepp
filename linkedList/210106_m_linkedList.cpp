@@ -28,7 +28,7 @@ void deleteNode(node*);
 
 int main(){
     //노드 생성
-    node* head=(node*)malloc(sizeof(node)); //헤드 노드를 메모리 동적 할당으로 생성
+    node* head=new node; //헤드 노드를 메모리 동적 할당으로 생성
     head->next=NULL; //헤드 노드는 데이터를 저장하지 않음. 다음 노드는 NULL
     int i, j=0;
     int h, g=0;
@@ -61,12 +61,12 @@ int main(){
         curr=curr->next; //첫번째로 생성한 노드의 newNode->next는 NULL이므로 반복문 탈출
     }
 
-    return 0;
+    delete[]head;
 }
 
 
 void addNode(node* head, int data){
-    node* newNode=(node*)malloc(sizeof(node));
+    node* newNode=new node;
     newNode->data=data; //newNode의 data에 data 저장
     newNode->next=head->next; //newNode의 next node는 head node가 가리키던 다음 주소 저장
     head->next=newNode; //head node의 next node는 newNode의 address 저장
@@ -77,7 +77,7 @@ void addNode(node* head, int data){
 void deleteNode(node* head){ //head의 주소만 받음
     node* targetNode=head->next; //삭제할 노드의 주소가 들어갈 임시 변수 targetNode
     head->next=targetNode->next;
-    free(targetNode); //할당한 targetNode의 메모리 공간을 해제 
+    delete[]targetNode; //할당한 targetNode의 메모리 공간을 해제 
     cout<<"Head node 뒤의 노드 삭제"<<endl;
 
 }
