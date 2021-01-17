@@ -855,8 +855,10 @@ int main()
 
 // -CREATE-
 
-// linked_list LIST_NAME(NUM);                      : create list with NUM of node
+// linked_list<T> LIST_NAME();                      : create T type list without node
 // linked_list LIST_NAME();                         : create list without node
+// linked_list LIST_NAME(NUM);                      : create list with NUM of node
+// T                                                : INPUT type for tamplate : It is provided basic type and user-def type('example_data' is already include for user-def)
 
 // -USE-
 
@@ -882,13 +884,16 @@ int main()
 
 // ▷ DATA_management
 
-// LISTNAME.dump(INDEX)                             : out-put data of nodes untill reach INDEX of node from first node
+// LISTNAME.dump(INDEX)                             : out-put data of nodes, untill reach INDEX of node from first node
+// LISTNAME.dump(INDEX_1, INDEX_2)                  : out-put data of nodes, untill reach INDEX_2 of node from INDEX_1
+// LISTNAME.dump_serial_num(INDEX_1, INDEX_2)       : out-put serial_number and data of nodes, untill reach INDEX_2 of node from INDEX_1
 // LISTNAME.dump_all()                              : out-put data of nodes untill reach last node from first node
-// LISTNAME.dump_all_serial_num()                   : dump data with serial_number
+// LISTNAME.dump_all_serial_num()                   : dump_all data with serial_number
 // LISTNAME.change(INDEX, NUM, INPUT)               : edit INDEX_node data of <NUM>-th as INPUT
 
 // ▶ DATA_use_member_function
 
+// LISTNAME.search_ref(INDEX).data.get_elements_N() : show number of elements in data 
 // LISTNAME.search_ref(INDEX).data.get_property()   : show instruction for property of data 
 // LISTNAME.search_ref(INDEX).data.get_data_NUM()   : return INDEX_node data of <NUM>-th as OUTPUT
 
