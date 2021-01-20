@@ -4,6 +4,7 @@
 using namespace std;
 namespace fs=std::filesystem;
 int main(){
+    while(1){
     int choose;
     cout<<"다음중 선택세요(1.파일명 일괄 변경/2.특정 문자 지우기):";
     cin>>choose;
@@ -55,5 +56,11 @@ int main(){
                 rename(p,temp1.c_str());
             }
         }
+    }
+    cout<<"초기 화면으로 돌아가시겠습니까?(yes(3)/no(4)):";
+    cin>>choose;
+    if(choose==4){
+        break;
+    }
     }
 }
