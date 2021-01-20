@@ -13,12 +13,11 @@ int main(){
     int count=0;
     target.shrink_to_fit();
     change.shrink_to_fit();
-    string path="./";
-    for(auto& p: fs:: recursive_directory_iterator(path)){
+    for(auto& p: fs:: recursive_directory_iterator("./")){
         string temp=p.path().filename();
         if(temp.find(target)!=-1){          
-            int poin=temp.find(".",1);
-            temp.erase(0,poin);
+            temp.erase(0,temp.find(".",1));
+            temp.shrink_to_fit();
             string final=change+"0";
             final+=to_string(count);
             count+=1;
