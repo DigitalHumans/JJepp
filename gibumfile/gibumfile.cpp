@@ -11,8 +11,12 @@ int main(){
     if( choose==1){
     string target;
     string change;
+    cout<<"모든파일에 적용하시겠습니까?특정 문자열이 들어가 있을 경우 적용하시겠습니까?(1/2):";
+    cin>>choose;
+    if(choose==2){
     cout<<"바꾸려는 파일들에 공통적으로 들어 있는것은?";
     cin>>target;
+    }
     cout<<"바꿀 이름은?";
     cin>>change;
     int count=0;
@@ -20,7 +24,10 @@ int main(){
     change.shrink_to_fit();
     for(auto& p: fs:: recursive_directory_iterator("./")){
         string temp=p.path().filename();
-        if(temp.find(target)!=-1){          
+        if(temp.find(target)!=-1||target.empty()){        
+             if(temp.find("a.out")!=-1||temp.find("gibumfile.cpp")!=-1){
+                    continue;
+                }  
             temp.erase(0,temp.find(".",1));
             temp.shrink_to_fit();
             string final=change+"0";
