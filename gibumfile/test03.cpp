@@ -11,8 +11,10 @@ int main(){
     cout<<"바꿀 이름은?";
     cin>>change;
     int count=0;
+    cout<<target.capacity()<<change.capacity()<<endl;
     target.shrink_to_fit();
     change.shrink_to_fit();
+    cout<<target.capacity()<<change.capacity()<<endl;
     string path="./";
     for(auto& p: fs:: recursive_directory_iterator(path)){
         string temp=p.path().filename();
@@ -24,8 +26,6 @@ int main(){
             count+=1;
             final+=temp;
             temp=p.path().filename();
-            final.shrink_to_fit();
-            temp.shrink_to_fit();
             rename(temp.c_str(),final.c_str());
         }
     }
