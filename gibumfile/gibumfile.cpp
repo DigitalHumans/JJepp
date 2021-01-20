@@ -5,9 +5,9 @@
 using namespace std;
 namespace fs=std::filesystem;
 int main(){
-    char target[5000];
+    string target;
     string change;
-    cout<<"바꾸려는 파일의 이름들은?";
+    cout<<"바꾸려는 파일들에 공통적으로 들어 있는것은?";
     cin>>target;
     cout<<"바꿀 이름은?";
     cin>>change;
