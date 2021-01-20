@@ -5,15 +5,15 @@ using namespace std;
 namespace fs=std::filesystem;
 int main(){
     while(1){
-   short choose;
+    char choose;
     cout<<"다음중 선택세요(1.파일명 일괄 변경/2.특정 문자 지우기):";
     cin>>choose;
-    if( choose==1){
+    if( choose=='1'){
     string target;
     string change;
     cout<<"모든파일에 적용하시겠습니까?특정 문자열이 들어가 있을 경우 적용하시겠습니까?(1/2):";
     cin>>choose;
-    if(choose==2){
+    if(choose=='2'){
     cout<<"바꾸려는 파일들에 공통적으로 들어 있는것은?";
     cin>>target;
     }
@@ -41,14 +41,14 @@ int main(){
         }
     }
     }
-    else if(choose==2){
+    else if(choose=='2'){
         int delposit;
         cout<<"앞에서부터 몇자리까지 지우실지를 입력해주세요:";
         cin>>delposit;
         cout<<"모든파일에 적용하시겠습니까?특정 문자열이 들어가 있을 경우 적용하시겠습니까?(1/2):";
         cin>>choose;
         string trigger;
-        if(choose==2){
+        if(choose=='2'){
             cout<<"특정 문자열을 입력하여 주십시요:";
             cin>>trigger;
         }
@@ -66,7 +66,7 @@ int main(){
     }
     cout<<"초기 화면으로 돌아가시겠습니까?(yes(3)/no(4)):";
     cin>>choose;
-    if(choose==4){
+    if(choose=='4'){
         break;
     }
     }
