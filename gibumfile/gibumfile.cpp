@@ -47,8 +47,9 @@ int main(){
         c.shrink_to_fit();
         for(auto& p: fs:: recursive_directory_iterator("./")){
             string t1=p.path().filename();
-            if(c.capacity()==0){
-                
+            if(c.empty()||t1.find(c)!=-1){
+                t1.erase(0,b);
+                rename(p,t1.c_str());
             }
         }
     }
