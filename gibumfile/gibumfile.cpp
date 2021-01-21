@@ -22,8 +22,10 @@ int main(){
     int count=0;
     target.shrink_to_fit();
     change.shrink_to_fit();
-    for(auto& p: fs:: recursive_directory_iterator("./")){
+    for(auto& p: fs:: directory_iterator("./")){
         string temp=p.path().filename();
+        cout<<temp<<endl;
+        cout<<p<<endl;
         if(temp.find(target)!=-1||target.empty()){        
              if(temp.find("a.out")!=-1||temp.find("gibumfile.cpp")!=-1){
                     continue;
@@ -31,6 +33,8 @@ int main(){
             temp.replace(0,temp.find(".",1),change+"0"+to_string(count));
             count+=1;
             temp.shrink_to_fit();
+            cout<<temp<<endl;
+            cout<<p<<endl;
             rename(p,temp.c_str());
         }
     }
@@ -47,7 +51,7 @@ int main(){
             cin>>trigger;
         }
         trigger.shrink_to_fit();
-        for(auto& p: fs:: recursive_directory_iterator("./")){
+        for(auto& p: fs:: directory_iterator("./")){
             string temp1=p.path().filename();
             if(trigger.empty()||temp1.find(trigger)!=-1){
                 if(temp1.find("a.out")!=-1||temp1.find("gibumfile.cpp")!=-1){
