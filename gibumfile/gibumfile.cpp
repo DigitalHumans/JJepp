@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <filesystem>
+#include <algorithm>
 using namespace std;
 namespace fs=std::filesystem;
 int main(){
@@ -22,19 +23,18 @@ int main(){
     int count=0;
     target.shrink_to_fit();
     change.shrink_to_fit();
-    for(auto& p: fs:: directory_iterator("./")){
-        string temp=p.path().filename();
-        cout<<temp<<endl;
-        cout<<p<<endl;
+    for(auto& p: fs:: recursive_directory_iterator("./")){
+        string temp=p.path();
         if(temp.find(target)!=-1||target.empty()){        
-             if(temp.find("a.out")!=-1||temp.find("gibumfile.cpp")!=-1){
+             if(temp.find("a.out")!=-1||temp.find("gibumfile.cpp")!=-1||fs::is_directory(p)){
                     continue;
                 }  
-            temp.replace(0,temp.find(".",1),change+"0"+to_string(count));
-            count+=1;
-            temp.shrink_to_fit();
-            cout<<temp<<endl;
-            cout<<p<<endl;
+            reverse(temp.begin(),temp.end());
+            int c=temp.find("/");
+            reverse(temp.begin(),temp.end());
+            c=temp.length()-c;
+            temp.replace(c,temp.find(".",1)-c,change+"0"+to_string(count));
+            count++;
             rename(p,temp.c_str());
         }
     }
