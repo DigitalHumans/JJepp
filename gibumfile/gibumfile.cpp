@@ -4,13 +4,15 @@
 #include <algorithm>
 using namespace std;
 namespace fs=std::filesystem;
+int pre(string m);
 int main(){
+    int c;
     string target;
     string change;
     string temp;
     while(1){
     char choose;
-    cout<<"다음중 선택세요(1.파일명 일괄 변경/2.특정 문자 지우기):";
+    cout<<"다음중 선택세요\n(1.파일명 일괄 변경/2.앞자리 n번째 까지 지우기)\n% 3.특정 문자열 추가/4.특정 문자열 제거:";
     cin>>choose;
     if( choose=='1'){
     cout<<"모든파일에 적용하시겠습니까?특정 문자열이 들어가 있을 경우 적용하시겠습니까?(1/2):";
@@ -25,15 +27,13 @@ int main(){
     target.shrink_to_fit();
     change.shrink_to_fit();
     for(auto& p: fs:: recursive_directory_iterator("./")){
+        string isdir=p.path().parent_path();
         temp=p.path();
         if(temp.find(target)!=-1||target.empty()){        
-             if(temp.find("a.out")!=-1||temp.find("gibumfile.cpp")!=-1||fs::is_directory(p)){
+             if(temp.find("a.out")!=-1||temp.find("gibumfile.cpp")!=-1||fs::is_directory(p)||(isdir.find(target)!=-1&&choose=='2')){
                     continue;
                 }  
-            reverse(temp.begin(),temp.end());
-            int c=temp.find("/");
-            reverse(temp.begin(),temp.end());
-            c=temp.length()-c;
+            c=pre(temp);
             temp.replace(c,temp.find(".",1)-c,change+"0"+to_string(count));
             count++;
             rename(p,temp.c_str());
@@ -51,16 +51,27 @@ int main(){
             cin>>change;
         }
         change.shrink_to_fit();
-        for(auto& p: fs:: directory_iterator("./")){
-             temp=p.path().filename();
+        for(auto& p: fs:: recursive_directory_iterator("./")){
+             temp=p.path();
+              string isdir=p.path().parent_path();
             if(change.empty()||temp.find(change)!=-1){
-                if(temp.find("a.out")!=-1||temp.find("gibumfile.cpp")!=-1){
+                if(temp.find(target)!=-1||target.empty()){        
+             if(temp.find("a.out")!=-1||temp.find("gibumfile.cpp")!=-1||fs::is_directory(p)||(isdir.find(change)!=-1&&choose=='2')){
                     continue;
-                }
-                temp.erase(0,delposit);
-                rename(p,temp.c_str());
+                }  
+            c=pre(temp);
+            temp.erase(c,delposit);
+            cout<<temp<<endl;
+            rename(p,temp.c_str());
             }
         }
+    }
+    }
+    else if(choose=='3'){
+
+    }
+    else if(choose=='4'){
+
     }
     cout<<"초기 화면으로 돌아가시겠습니까?(yes(3)/no(4)):";
     cin>>choose;
@@ -68,4 +79,12 @@ int main(){
         break;
     }
     }
+}
+int pre(string m){
+    int n;
+    reverse(m.begin(),m.end());
+            n=m.find("/");
+            reverse(m.begin(),m.end());
+            n=m.length()-n;
+            return n;
 }
