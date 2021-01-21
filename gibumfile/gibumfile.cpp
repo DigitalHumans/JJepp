@@ -28,16 +28,10 @@ int main(){
              if(temp.find("a.out")!=-1||temp.find("gibumfile.cpp")!=-1){
                     continue;
                 }  
-            temp.erase(0,temp.find(".",1));
-            temp.shrink_to_fit();
-            string final=change+"0";
-            final+=to_string(count);
+            temp.replace(0,temp.find(".",1),change+"0"+to_string(count));
             count+=1;
-            final+=temp;
-            temp=p.path().filename();
-            final.shrink_to_fit();
             temp.shrink_to_fit();
-            rename(temp.c_str(),final.c_str());
+            rename(p,temp.c_str());
         }
     }
     }
