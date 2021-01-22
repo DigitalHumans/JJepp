@@ -42,6 +42,10 @@ int main(){
     }
     else if(choose=='2'){
         int delposit;
+        int first;
+        cout<<"어느 번째 짜리부터 지우실지 입력해주세요:";
+        cin>>first;
+        first--;
         cout<<"앞에서부터 몇자리까지 지우실지를 입력해주세요:";
         cin>>delposit;
         cout<<"모든파일에 적용하시겠습니까?특정 문자열이 들어가 있을 경우 적용하시겠습니까?(1/2):";
@@ -60,7 +64,7 @@ int main(){
                     continue;
                 }  
             c=pre(temp);
-            temp.erase(c,delposit);
+            temp.erase(c+first,delposit);
             cout<<temp<<endl;
             rename(p,temp.c_str());
             }
@@ -68,7 +72,12 @@ int main(){
     }
     }
     else if(choose=='3'){
-
+        int d;
+        cout<<"넣으실 문자열을 입력해주세요";
+        cin>>target;
+        cout<<"몇번째 자리에 넣으시겠습니까?";
+        cin>>d;
+        
     }
     else if(choose=='4'){
 
