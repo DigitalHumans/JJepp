@@ -84,7 +84,6 @@ int pre(string m){
     int n;
     reverse(m.begin(),m.end());
             n=m.find("/");
-            reverse(m.begin(),m.end());
             n=m.length()-n;
             return n;
 }
