@@ -16,7 +16,7 @@ int main()
         string temp1;
         int delposit;
         char choose;
-        cout << "다음중 선택세요\n(1.파일명 일괄 변경/2.n번째 자리 지우기)\n% 3.특정 문자열 추가/4.특정 문자열 제거:";
+        cout << "다음중 선택세요\n(1.파일명 일괄 변경/2.n번째 자리 지우기)\n  3.특정 문자열 추가/4.특정 문자열 제거:";
         cin >> choose;
         if (choose == '1')
         {
@@ -79,7 +79,6 @@ int main()
                         }
                         c = pre(temp);
                         temp.erase(c + first, delposit);
-                        cout << temp << endl;
                         rename(p, temp.c_str());
                     }
                 }
@@ -125,8 +124,7 @@ int main()
                     continue;
                 }
                 temp1 = temp.substr(0, delposit);
-                temp1 += change;
-                temp1 += temp.substr(delposit, temp.length());
+                temp1 += change+temp.substr(delposit, temp.length());
                 rename(p, temp1.c_str());
             }
         }
