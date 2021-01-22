@@ -10,6 +10,7 @@ int main(){
     string target;
     string change;
     string temp;
+    string isdir;
     while(1){
     char choose;
     cout<<"다음중 선택세요\n(1.파일명 일괄 변경/2.앞자리 n번째 까지 지우기)\n% 3.특정 문자열 추가/4.특정 문자열 제거:";
@@ -27,7 +28,7 @@ int main(){
     target.shrink_to_fit();
     change.shrink_to_fit();
     for(auto& p: fs:: recursive_directory_iterator("./")){
-        string isdir=p.path().parent_path();
+        isdir=p.path().parent_path();
         temp=p.path();
         if(temp.find(target)!=-1||target.empty()){        
              if(temp.find("a.out")!=-1||temp.find("gibumfile.cpp")!=-1||fs::is_directory(p)||(isdir.find(target)!=-1&&choose=='2')){
@@ -57,7 +58,7 @@ int main(){
         change.shrink_to_fit();
         for(auto& p: fs:: recursive_directory_iterator("./")){
              temp=p.path();
-              string isdir=p.path().parent_path();
+              isdir=p.path().parent_path();
             if(change.empty()||temp.find(change)!=-1){
                 if(temp.find(target)!=-1||target.empty()){        
              if(temp.find("a.out")!=-1||temp.find("gibumfile.cpp")!=-1||fs::is_directory(p)||(isdir.find(change)!=-1&&choose=='2')){
@@ -72,12 +73,38 @@ int main(){
     }
     }
     else if(choose=='3'){
-        int d;
-        cout<<"넣으실 문자열을 입력해주세요";
-        cin>>target;
-        cout<<"몇번째 자리에 넣으시겠습니까?";
-        cin>>d;
-        
+        int d=-1;
+        cout<<"문자열을 넣을 위치를 골라주십시오(1.맨앞/2.맨뒤/3.특정 문자열 앞):";
+        cin>>choose;
+        if(choose=='3'){
+            cout<<"특정 문자열을 입력해주십시요:";
+            cin>>target;
+        }
+        cout<<"삽입할 문자열을 입력해주십시오:";
+        cin>>change;
+        for(auto &p: fs:: recursive_directory_iterator("./")){
+            string isdir=p.path().parent_path();
+            temp=p.path();
+             if(temp.find("a.out")!=-1||temp.find("gibumfile.cpp")!=-1||fs::is_directory(p)||(isdir.find(target)!=-1&&choose=='3')){
+                    continue;
+                }  
+            if(choose=='1'){
+                d=pre(temp);
+            }
+            else if(choose=='2'){
+                d=temp.find(".",1)-1;
+            }
+            else if(choose=='3'){
+                d=temp.find(target);
+            }
+            string final=temp.substr(0,d);
+            final+=change;
+            final+=temp.substr(d,temp.length());
+            rename(p,final.c_str());
+        }
+                  if(d==-1){
+                continue;
+            }
     }
     else if(choose=='4'){
 
