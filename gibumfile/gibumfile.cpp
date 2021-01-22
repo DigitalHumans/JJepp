@@ -13,7 +13,7 @@ int main(){
     string isdir;
     while(1){
     char choose;
-    cout<<"다음중 선택세요\n(1.파일명 일괄 변경/2.앞자리 n번째 까지 지우기)\n% 3.특정 문자열 추가/4.특정 문자열 제거:";
+    cout<<"다음중 선택세요\n(1.파일명 일괄 변경/2.n번째 자리 지우기)\n% 3.특정 문자열 추가/4.특정 문자열 제거:";
     cin>>choose;
     if( choose=='1'){
     cout<<"모든파일에 적용하시겠습니까?특정 문자열이 들어가 있을 경우 적용하시겠습니까?(1/2):";
@@ -107,11 +107,26 @@ int main(){
             }
     }
     else if(choose=='4'){
-
+        cout<<"지우실 문자열을 입력해주세요";
+        cin>>target;
+        for(auto &p: fs:: recursive_directory_iterator("./")){
+            string isdir=p.path().parent_path();
+            temp=p.path();
+                     if(temp.find("a.out")!=-1||temp.find("gibumfile.cpp")!=-1||fs::is_directory(p)){
+                    continue;
+                }
+                c=pre(temp);
+                int d=temp.find(target,c);
+                if(d==-1){
+                    continue;
+                }
+                temp.erase(d,target.length());
+                rename(p,temp.c_str());
+        }
     }
-    cout<<"초기 화면으로 돌아가시겠습니까?(yes(3)/no(4)):";
+    cout<<"초기 화면으로 돌아가시겠습니까?(yes(5)/no(6)):";
     cin>>choose;
-    if(choose=='4'){
+    if(choose=='6'){
         break;
     }
     }
