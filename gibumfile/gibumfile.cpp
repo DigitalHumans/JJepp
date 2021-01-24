@@ -10,6 +10,9 @@ int main()
 {
     while (1)
     {
+        #ifdef _WIN32
+        system("chcp 65001");
+        #endif
         int c;
         string target;
         string change;
