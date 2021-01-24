@@ -5,10 +5,7 @@
 using namespace std;
 namespace fs = std::filesystem;
 void pre(string m, int *n);
-void byos(string *b,string *d, fs::directory_entry p);
-#ifdef _WIN32
-wchar forwin;
-#endif
+void byos(string *b, string *d, fs::directory_entry p);
 int main()
 {
     while (1)
@@ -38,7 +35,7 @@ int main()
             change.shrink_to_fit();
             for (auto &p : fs::recursive_directory_iterator("./"))
             {
-                byos(&temp1,&temp,p);
+                byos(&temp1, &temp, p);
                 if (temp.find(target) != -1 || target.empty())
                 {
                     if (temp.find("a.out") != -1 || temp.find("gibumfile.cpp") != -1 || fs::is_directory(p) || (temp1.find(target) != -1 && choose == '2'))
@@ -70,7 +67,7 @@ int main()
             change.shrink_to_fit();
             for (auto &p : fs::recursive_directory_iterator("./"))
             {
-                byos(&temp1,&temp,p);
+
                 if (change.empty() || temp.find(change) != -1)
                 {
                     if (temp.find(target) != -1 || target.empty())
@@ -102,7 +99,7 @@ int main()
             change.shrink_to_fit();
             for (auto &p : fs::recursive_directory_iterator("./"))
             {
-                byos(&temp1,&temp,p);
+                byos(&temp1, &temp, p);
                 temp.shrink_to_fit();
                 if (temp.find("a.out") != -1 || temp.find("gibumfile.cpp") != -1 || fs::is_directory(p) || (temp1.find(target) != -1 && choose == '3'))
                 {
@@ -135,7 +132,7 @@ int main()
             cin >> target;
             for (auto &p : fs::recursive_directory_iterator("./"))
             {
-                byos(&temp1,&temp,p);
+                byos(&temp1, &temp, p);
                 temp.shrink_to_fit();
                 if (temp.find("a.out") != -1 || temp.find("gibumfile.cpp") != -1 || fs::is_directory(p))
                 {
@@ -153,7 +150,7 @@ int main()
         }
         cout << "초기 화면으로 돌아가시겠습니까?(yes(5)/no(6)):";
         cin >> c;
-        if (choose == 6)
+        if (c == 6)
         {
             break;
         }
@@ -165,16 +162,14 @@ void pre(string m, int *n)
     *n = m.find("/");
     *n = m.length() - *n;
 }
-void byos(string *b,string *d, fs::directory_entry p)
+void byos(string *b, string *d, fs::directory_entry p)
 {
-#ifdef _WIN32
-    wstring forwin;
-#endif
-#ifdef linux
+#ifdef __linux__
     *b = p.path().parent_path();
     *d = p.path();
 #endif
 #ifdef _WIN32
+    wstring forwin;
     forwin = p.path().parent_path();
     b->assign(forwin.begin(), forwin.end());
     forwin = p.path();
