@@ -4,7 +4,11 @@
 #include <algorithm>
 using namespace std;
 namespace fs = std::filesystem;
-int pre(string m);
+void pre(string m, int *n);
+void byos(string *b,string *d, fs::directory_entry p);
+#ifdef _WIN32
+wchar forwin;
+#endif
 int main()
 {
     while (1)
@@ -34,15 +38,14 @@ int main()
             change.shrink_to_fit();
             for (auto &p : fs::recursive_directory_iterator("./"))
             {
-                temp1 = p.path().parent_path();
-                temp = p.path();
+                byos(&temp1,&temp,p);
                 if (temp.find(target) != -1 || target.empty())
                 {
                     if (temp.find("a.out") != -1 || temp.find("gibumfile.cpp") != -1 || fs::is_directory(p) || (temp1.find(target) != -1 && choose == '2'))
                     {
                         continue;
                     }
-                    c = pre(temp);
+                    pre(temp, &c);
                     temp.replace(c, temp.find(".", 1) - c, change + "0" + to_string(count));
                     count++;
                     rename(p, temp.c_str());
@@ -67,8 +70,7 @@ int main()
             change.shrink_to_fit();
             for (auto &p : fs::recursive_directory_iterator("./"))
             {
-                temp = p.path();
-                temp1 = p.path().parent_path();
+                byos(&temp1,&temp,p);
                 if (change.empty() || temp.find(change) != -1)
                 {
                     if (temp.find(target) != -1 || target.empty())
@@ -77,7 +79,7 @@ int main()
                         {
                             continue;
                         }
-                        c = pre(temp);
+                        pre(temp, &c);
                         temp.erase(c + first, delposit);
                         rename(p, temp.c_str());
                     }
@@ -100,8 +102,7 @@ int main()
             change.shrink_to_fit();
             for (auto &p : fs::recursive_directory_iterator("./"))
             {
-                temp1 = p.path().parent_path();
-                temp = p.path();
+                byos(&temp1,&temp,p);
                 temp.shrink_to_fit();
                 if (temp.find("a.out") != -1 || temp.find("gibumfile.cpp") != -1 || fs::is_directory(p) || (temp1.find(target) != -1 && choose == '3'))
                 {
@@ -109,7 +110,7 @@ int main()
                 }
                 if (choose == '1')
                 {
-                    delposit = pre(temp);
+                    pre(temp, &delposit);
                 }
                 else if (choose == '2')
                 {
@@ -124,7 +125,7 @@ int main()
                     continue;
                 }
                 temp1 = temp.substr(0, delposit);
-                temp1 += change+temp.substr(delposit, temp.length());
+                temp1 += change + temp.substr(delposit, temp.length());
                 rename(p, temp1.c_str());
             }
         }
@@ -134,14 +135,13 @@ int main()
             cin >> target;
             for (auto &p : fs::recursive_directory_iterator("./"))
             {
-                temp1 = p.path().parent_path();
-                temp = p.path();
+                byos(&temp1,&temp,p);
                 temp.shrink_to_fit();
                 if (temp.find("a.out") != -1 || temp.find("gibumfile.cpp") != -1 || fs::is_directory(p))
                 {
                     continue;
                 }
-                c = pre(temp);
+                pre(temp, &c);
                 int delposit = temp.find(target, c);
                 if (delposit == -1)
                 {
@@ -159,11 +159,25 @@ int main()
         }
     }
 }
-int pre(string m)
+void pre(string m, int *n)
 {
-    int n;
     reverse(m.begin(), m.end());
-    n = m.find("/");
-    n = m.length() - n;
-    return n;
+    *n = m.find("/");
+    *n = m.length() - *n;
+}
+void byos(string *b,string *d, fs::directory_entry p)
+{
+#ifdef _WIN32
+    wstring forwin;
+#endif
+#ifdef linux
+    *b = p.path().parent_path();
+    *d = p.path();
+#endif
+#ifdef _WIN32
+    forwin = p.path().parent_path();
+    b->assign(forwin.begin(), forwin.end());
+    forwin = p.path();
+    d->assign(forwin.begin(), forwin.end());
+#endif
 }
