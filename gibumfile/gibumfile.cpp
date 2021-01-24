@@ -156,12 +156,11 @@ int main()
         }
     }
 }
-void pre(string &m, int &n)
+void pre(string m, int *n)
 {
     reverse(m.begin(), m.end());
-    n = m.find("/");
-    n = m.length() - n;
-    reverse(m.begin(), m.end());
+    *n = m.find("/");
+    *n = m.length() - *n;
 }
 void byos(string *b, string *d, fs::directory_entry p)
 {
